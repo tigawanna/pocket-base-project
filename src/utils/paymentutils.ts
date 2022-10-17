@@ -1,7 +1,6 @@
 import { Payment } from "./other/types";
 import { paymentValidation } from "./payment-form-validate";
 import { User } from 'firebase/auth';
-import { setPayment } from './sharedutils';
 import { QueryClient } from 'react-query';
 // var uniqid = require('uniqid')
 
@@ -129,7 +128,7 @@ paymentId
 }
 // console.log("saving ..... ",item)
 if (paymentValidation({ input, error, setError })){
- setPayment(item,paymentId,floor,input.shopnumber,queryClient)
+//  setPayment(item,paymentId,floor,input.shopnumber,queryClient)
  setOpen(!open)
  setFormOpen(!formopen)
 }
