@@ -12,6 +12,7 @@ import { IconContext } from "react-icons/lib";
 import { ErrorState} from "../TheTable/utils/types";
 import { tymeToDate } from './../TheTable/utils/utils';
 import { Tyme } from './../TheTable/utils/types';
+import { TheSelect } from '../../../Shared/TheSelect';
 
 
 
@@ -87,7 +88,10 @@ const currentlyEditing = editIdx === index;
         >
           {currentlyEditing&&head.editable ? (
             <div>
-              <input
+
+            {head.type ==='expand'?
+                <TheSelect handleChange={handleChange} head={head} index={index} />
+            :<input
                 className="w-full border-red-900 border-2 text-center "
                 id={head.prop}
                 name={head.prop}
@@ -96,7 +100,7 @@ const currentlyEditing = editIdx === index;
                   //@ts-ignore
                   input[head.prop]
                 }
-              />
+              />}
               {error && error.name !=="" && error.name === head.prop ? (
                 <div className="text-red-400 text-sm ">{error.error}</div>
               ) : null}
