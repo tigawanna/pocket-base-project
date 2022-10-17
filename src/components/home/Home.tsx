@@ -7,8 +7,11 @@ user?: User | Admin | null
 
 export const Home: React.FC<HomeProps> = ({}) => {
 return (
-<div>
-HOME
+<div className='w-full h-full bg-purple-500 flex-center'>
+        <div className='w-[30%] h-[20%] bg-purple-900 flex-center text-4xl rounded-md font-bold'>
+            HOME
+        </div>
+
 </div>
 );
 }
