@@ -24,9 +24,7 @@ export const TableSelect: React.FC<TableSelectProps> = ({head,item,input,initval
 
   const searchField = async () => {
     return await client.records.getFullList(`${head.collection}`, 5,
-      { 
-        filter:` name ~ "${keyword.word}" `,
-      }
+      { filter: ` ${args[1]} ~ "${keyword.word}"  `}
     );
   };
 const fieldQuery = useQuery(["search",keyword.word], searchField, {});
