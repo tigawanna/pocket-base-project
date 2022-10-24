@@ -17,8 +17,10 @@ export const header = [
     { name: "PayId", prop: "id", type: "string", editable: true },
     { name: "Created On ", prop: "created", type: "date", editable: true },
     { name: "Updated On", prop: "updated", type: "date", editable: true },
+    { name: "Shop number", prop: "shop.shopNumber", type: "@expand", editable: true },
     { name: "Amount", prop: "amount", type: "number", editable: true },
-    { name: "Shop name", prop: "shop.name", type: "expand", editable: true },
+    { name: "Shop name", prop: "shop.name", type: "@expand", editable: true,collection:"shops" },
+    
 ]
 
 export const Payment: React.FC<
@@ -31,11 +33,9 @@ export const Payment: React.FC<
   const totalHeight = mainH - top.height - 70;
   const bottomHeight = totalHeight;
   const navigate = useNavigate();
-  const [update, setUpdate] =
-    React.useState(false);
+  const [update, setUpdate] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const [month, setMonth] =
-    React.useState<string>(getmonth);
+  const [month, setMonth] = React.useState<string>(getmonth);
 
   const selectMonth = (index: number) => {
     setMonth(months[index]);
@@ -46,7 +46,7 @@ export const Payment: React.FC<
     getPayments,
     {}
   );
-  console.log("paymentsdata === ", paymentsQuery);
+  // console.log("paymentsdata === ", paymentsQuery);
   if (paymentsQuery.error) {
     return (
       <div className="w-full h-full flex flex-wrap  text-red-900">

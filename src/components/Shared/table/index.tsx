@@ -7,12 +7,12 @@ import { IconContext } from 'react-icons/lib';
 import { mainRow } from './components/tableparts/tableRows';
 import { UndoModal } from './components/tableparts/UndoModal';
 import { tymeToDate } from './components/TheTable/utils/utils';
-import { Tyme } from './components/TheTable/utils/types';
+import { Header, Tyme } from './components/TheTable/utils/types';
 
 
 export interface TheTableProps {
   rows?:any[]
-  header:{name:string,prop:string,type:string,editable:boolean}[]
+  header:Header[]
 
   //optional props use ?. for fuctions before invoking them 
   update?:boolean

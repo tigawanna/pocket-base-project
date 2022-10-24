@@ -16,3 +16,6 @@ export interface ErrorState {
     nanoseconds: number,
     seconds:number
   }
+
+
+  export interface Header {name:string,prop:string,type:string,editable:boolean,collection?:string}

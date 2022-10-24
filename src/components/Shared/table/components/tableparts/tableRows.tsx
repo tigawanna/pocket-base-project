@@ -9,10 +9,12 @@ import {
 } from "react-icons/fa";
 
 import { IconContext } from "react-icons/lib";
-import { ErrorState} from "../TheTable/utils/types";
+import { ErrorState, Header} from "../TheTable/utils/types";
 import { tymeToDate } from './../TheTable/utils/utils';
 import { Tyme } from './../TheTable/utils/types';
-import { TheSelect } from '../../../Shared/TheSelect';
+import { TableSelect } from './TheSelect';
+
+
 
 
 
@@ -20,7 +22,7 @@ import { TheSelect } from '../../../Shared/TheSelect';
 export const mainRow = (
   index: number,
   item: any,
-  header: { name: string; prop: string ,type:string,editable:boolean}[],
+  header:Header[],
   handleChange: any,
   editIdx: number,
   startEditing: (index: number, item: any) => void,
@@ -52,11 +54,11 @@ if(type==="date" && item[prop] instanceof Date){
   if (type === "date") {
     return dayjs(item[prop]).format("DD/MM/YYYY")
   }
-if(type === "expand"){
-  //@ts-ignore
-  const args = prop.split('.')
- return item['@expand'][args[0]][args[1]]
-}
+  if (type === "@expand") {
+    //@ts-ignore
+    const args = prop.split('.')
+    return item['@expand'][args[0]][args[1]]
+  }
 return item[prop];
 };
 
@@ -89,8 +91,9 @@ const currentlyEditing = editIdx === index;
           {currentlyEditing&&head.editable ? (
             <div>
 
-            {head.type ==='expand'?
-                <TheSelect handleChange={handleChange} head={head} index={index} />
+              {head.type === 'expand' || head.type === '@expand' ?
+                <TableSelect handleChange={handleChange} head={head} item={item} input={input} 
+                  initval={mapToCurrent(head.prop, head.type, item)} />
             :<input
                 className="w-full border-red-900 border-2 text-center "
                 id={head.prop}
