@@ -17,7 +17,7 @@ export const header = [
     { name: "PayId", prop: "id", type: "string", editable: true },
     { name: "Created On ", prop: "created", type: "date", editable: true },
     { name: "Updated On", prop: "updated", type: "date", editable: true },
-    { name: "Shop number", prop: "shop.shopNumber", type: "@expand", editable: true },
+    { name: "Shop number", prop: "shop.shopNumber", type: "@expand", editable: true,collection:"shops" },
     { name: "Amount", prop: "amount", type: "number", editable: true },
     { name: "Shop name", prop: "shop.name", type: "@expand", editable: true,collection:"shops" },
     
