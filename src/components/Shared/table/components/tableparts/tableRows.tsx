@@ -13,6 +13,7 @@ import { ErrorState, Header} from "../TheTable/utils/types";
 import { tymeToDate } from './../TheTable/utils/utils';
 import { Tyme } from './../TheTable/utils/types';
 import { TableSelect } from './TheSelect';
+import { useState } from 'react';
 
 
 
@@ -30,6 +31,7 @@ export const mainRow = (
   removeItem: (index: number, item: any) => void,
   cancelEdit: (index: number) => void,
   input: any,
+  setInput: React.Dispatch<any>,
   update: boolean,
   error: ErrorState | undefined
 ) => {
@@ -41,6 +43,7 @@ const mapToCurrent = (
   type:string,
   item: any
 ): string | number => {
+
 
 //checking for firebase timestamp object to convert it to date string
 if(type==="date" && (item[prop] as Tyme).seconds){
@@ -70,7 +73,7 @@ if(type === "id"){
 }
 
 }
-
+const [selectInput, setSelectinput] = useState(item['@expand'])
 
 const currentlyEditing = editIdx === index;
   return (
@@ -92,7 +95,10 @@ const currentlyEditing = editIdx === index;
             <div>
 
               {head.type === 'expand' || head.type === '@expand' ?
-                <TableSelect handleChange={handleChange} head={head} item={item} input={input} 
+                <TableSelect handleChange={handleChange} head={head} item={item} 
+                input={input} setInput={setInput}
+                selectInput={selectInput} setSelectInput={setSelectinput}
+          
                   initval={mapToCurrent(head.prop, head.type, item)} />
             :<input
                 className="w-full border-red-900 border-2 text-center "

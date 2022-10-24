@@ -19,7 +19,7 @@ export const header = [
     { name: "Updated On", prop: "updated", type: "date", editable: true },
     { name: "Shop number", prop: "shop.shopNumber", type: "@expand", editable: true,collection:"shops" },
     { name: "Amount", prop: "amount", type: "number", editable: true },
-    { name: "Shop name", prop: "shop.name", type: "@expand", editable: true,collection:"shops" },
+    { name: "Shop name", prop: "shop.name", type: "@expand", editable: true,collection:"shops"},
     
 ]
 

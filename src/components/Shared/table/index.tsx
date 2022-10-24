@@ -217,6 +217,7 @@ export interface TheTableProps {
                   removeItem,
                   cancelEdit,
                   input,
+                  setInput,
                   update,
                   error
                 );
