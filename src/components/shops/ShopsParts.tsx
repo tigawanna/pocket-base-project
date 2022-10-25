@@ -3,6 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { Shop } from "../../utils/other/types";
 import { IconContext } from 'react-icons';
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 interface ShopCardProps {
   shop: Shop;
@@ -14,11 +15,15 @@ export const ShopCard: React.FC<ShopCardProps> = ({ shop }) => {
     <div
       onClick={()=>navigate('/shop', { state:shop })  }
       className="shop-card-container ">
-      <div className="text-xl font-bold">{shop.shopnumber}</div>
+      <div className="text-xl font-bold">{shop.shopNumber}</div>
       <div className="h-[80%] flex-col justify-end items-end">
-        <div className="text-lg">{shop.shopfloor}</div>
-        <div className="text-6xl capitalize truncate">{shop.shopname}</div>
+        <div className="text-lg">{shop.floor}</div>
+        <div className="text-6xl capitalize truncate">{shop.shopNumber}</div>
         <div className="text-lg font-medium">{shop.monthlyrent}</div>
+        <div className="font-normal">created:
+          {dayjs(shop.created).format("DD/MM/YYYY")}</div>
+        <div className=" font-normal">transfered:
+        {dayjs(shop.transferedAt).format("DD/MM/YYYY")}</div>
       </div>
     </div>
   );

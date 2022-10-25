@@ -1,12 +1,28 @@
-export interface Shop{
-date:tyme | Date  
-shopname:string
-shopnumber:string
-shopfloor:string
-monthlyrent:number
-shoparrears?:string
-madeBy?:string|null
+export interface ShopType {
+  "@collectionId"?: string;
+  "@collectionName"?: string;
+  id?: string;
+  created: string;
+  updated: string;
+  name: string;
+  shopNumber: string;
+  tenant: string;
+  monthlyrent: number;
+  floor: string;
+  prevTenant: string;
+  transferedAt: string;
+  transferedBy: string;
 }
+
+export interface NewShopType {
+  name: string;
+  shopNumber: string;
+  tenant: string;
+  monthlyrent: number;
+  floor: string;
+}
+
+
 export interface Payment{
   shopnumber:string,
    payment:number,
@@ -28,7 +44,7 @@ export interface tyme{
   }
 
 export interface  ShopFormValidate{
-    input: Shop
+    input: NewShopType
     error: ShopFormError
     setError: React.Dispatch<React.SetStateAction<ShopFormError>>
     shops:Shop[]

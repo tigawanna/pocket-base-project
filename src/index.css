@@ -136,7 +136,7 @@ tfoot th {
 
 
 .shop-form-error{
-  @apply text-sm text-black 
+  @apply text-sm text-red-900 
   
   }
 
