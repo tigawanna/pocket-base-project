@@ -1,6 +1,4 @@
 import React,{useEffect, useState} from 'react'
-
-
 import { useCountdownTimer } from 'use-countdown-timer';
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
