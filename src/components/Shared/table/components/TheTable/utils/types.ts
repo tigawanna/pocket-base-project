@@ -18,4 +18,8 @@ export interface ErrorState {
   }
 
 
-  export interface Header {name:string,prop:string,type:string,editable:boolean,collection?:string}
+  export interface Header {
+    name:string,prop:string,
+    type:string,editable:boolean,
+    collection?:string,hidden?:boolean
+  }

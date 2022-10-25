@@ -14,12 +14,13 @@ interface PaymentProps {
   user: any;
 }
 export const header = [
-    { name: "PayId", prop: "id", type: "string", editable: true },
-    { name: "Created On ", prop: "created", type: "date", editable: true },
-    { name: "Updated On", prop: "updated", type: "date", editable: true },
+    { name: "PayId", prop: "id", type: "string", editable:false },
+    { name: "Created On ", prop: "created", type: "date", editable:false },
+    { name: "Updated On", prop: "updated", type: "date", editable:false },
     { name: "Shop number", prop: "shop.shopNumber", type: "@expand", editable: true,collection:"shops" },
     { name: "Amount", prop: "amount", type: "number", editable: true },
     { name: "Shop name", prop: "shop.name", type: "@expand", editable: true,collection:"shops"},
+    { name: "Shop", prop: "shop", type: "relation", editable: false, collection: "shops"},
     
 ]
 

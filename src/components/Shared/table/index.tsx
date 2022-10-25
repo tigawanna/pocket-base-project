@@ -177,6 +177,7 @@ export interface TheTableProps {
               <tr>
                 {header &&
                   header.map((x, i) => {
+                    if(!x.hidden)
                     return (
                       <td
                         key={x.name + i}

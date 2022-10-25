@@ -82,7 +82,7 @@ const currentlyEditing = editIdx === index;
     {/* table cell */}
     {header.map((head, index) => {
       addItemId(item,head.prop,head.type)
-    
+      if(!head.hidden)
       return (
         <td
         className="border-slate-800 border-2 text-center p-1 "

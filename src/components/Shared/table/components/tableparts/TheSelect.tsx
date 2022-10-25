@@ -48,13 +48,15 @@ const fieldQuery = useQuery(["search",keyword.word], searchField, {
 const finishSearch=(item:any)=>{
   setDosearch(false)
   setSelectInput({shop:item})
+  setInput((prev:any)=>{
+    prev[args[0]] = item.id
+    return prev
+  })
 
 }
 
 const data = fieldQuery.data
-// console.log("input === ",input)
-// console.log("item ===== ",head)
-// console.log("select input === ",selectInput[`${args[0]}`])
+
 return (
  <div className='w-full h-full relative cursor-pointer'>
     <input
