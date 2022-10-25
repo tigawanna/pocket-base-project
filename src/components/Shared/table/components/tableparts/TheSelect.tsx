@@ -48,7 +48,10 @@ const fieldQuery = useQuery(["search",keyword.word], searchField, {
 const finishSearch=(item:any)=>{
   setDosearch(false)
   setSelectInput({shop:item})
+  
   setInput((prev:any)=>{
+    // console.log("previous input state ==== ",prev)
+    prev['@expand'] = {shop:item}
     prev[args[0]] = item.id
     return prev
   })

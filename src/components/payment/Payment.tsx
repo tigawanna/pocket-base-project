@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { FaRegEdit, FaPlus, FaTimes, FaPrint } from "react-icons/fa";
 import { months, monthindex, getMonthIndex } from "../../utils/paymentutils";
-import { useQuery,useMutation } from "@tanstack/react-query";
+import { useQuery,useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 interface PaymentProps {
@@ -33,8 +33,13 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
   const bottomHeight = totalHeight;
   const navigate = useNavigate();
   const [update, setUpdate] = React.useState(false);
+  const [error, setError] = React.useState({
+    name:"",
+    error:""
+});
   const [open, setOpen] = React.useState(false);
   const [month, setMonth] = React.useState<string>(getmonth);
+  const queryClient = useQueryClient();
 
   const selectMonth = (index: number) => {
     setMonth(months[index]);
@@ -50,15 +55,48 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
   // }
 
   const updateMutation = useMutation((vars: { coll_name: string, theid: string,payload: any })=>{
-
     return client.records.update(vars.coll_name,vars.theid,vars.payload)
   },
-  {})
+  {
+    onMutate: async (newItem) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+
+      await queryClient.cancelQueries(["payments"]);
+      // Snapshot the previous value
+      const previousItems = queryClient.getQueryData(["payments"]);
+      // Optimistically update to the new value
+      console.log("previuos   === ", newItem, previousItems)
+      //@ts-ignore
+      queryClient.setQueryData(["payments"], (old) =>  { old.items[newItem.payload.id] = newItem.payload
+        return old
+      });
+      // Return a context object with the snapshotted value
+      console.log("previuos after edit  === ", previousItems)
+      return { previousItems };
+    }, 
+      // If the mutation fails, use the context returned from onMutate to roll back
+      // onError: (err, newTodo, context) => {
+      //   //@ts-ignore
+      //   queryClient.setQueryData(["payments"], context.previous);
+      // },
+      // // Always refetch after error or success:
+      onSettled: () => {
+        queryClient.invalidateQueries(["payments"]);
+      },
+
+
+})
   const saveChanges = ((prev: any, current: any) =>{
     console.log("current payload === ",current)
     updateMutation.mutate({coll_name:"payments",theid:current.id,payload:current})
   })
-  const validate = (prev: any, current: any) =>{return true}
+  const validate = (prev: any, current: any) =>{
+    if(current.id===""){
+      setError({name:"main",error:"valid id required"})
+      return false
+    }
+    return true
+  }
   // console.log("paymentsdata === ", paymentsQuery);
   if (paymentsQuery.error) {
     return (
@@ -163,6 +201,7 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
           update={update}
           validate={validate}
           saveChanges={saveChanges}
+          error={error}
         />
       </div>
     </div>
