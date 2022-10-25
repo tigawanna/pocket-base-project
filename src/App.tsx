@@ -8,7 +8,7 @@ import { Test } from './components/test/Test';
 
 import { client, getUser } from "./pocketbase/config";
 
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Protected } from './pocketbase/auth/Protected';
 import { Redirect } from "./pocketbase/auth/Redirect";
 import { Shops } from "./components/shops/Shops";

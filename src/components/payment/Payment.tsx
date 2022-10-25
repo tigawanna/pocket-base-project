@@ -1,6 +1,6 @@
 import React from "react";
 import { client } from "../../pocketbase/config";
-import { useQuery } from "react-query";
+
 import { PaymentResponnse } from "../../utils/other/types";
 import { Record } from "pocketbase";
 import { TheTable } from "../Shared/table";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { IconContext } from "react-icons";
 import { FaRegEdit, FaPlus, FaTimes, FaPrint } from "react-icons/fa";
 import { months, monthindex, getMonthIndex } from "../../utils/paymentutils";
+import { useQuery,useMutation } from "@tanstack/react-query";
+
 
 interface PaymentProps {
   user: any;
@@ -24,13 +26,9 @@ export const header = [
     
 ]
 
-export const Payment: React.FC<
-  PaymentProps
-> = ({}) => {
+export const Payment: React.FC<PaymentProps> = ({}) => {
   const [ref, top] = useMeasure();
-  const [mainH, setMainH] = React.useState(
-    window?.innerHeight ?? 0
-  );
+  const [mainH, setMainH] = React.useState(window?.innerHeight ?? 0);
   const totalHeight = mainH - top.height - 70;
   const bottomHeight = totalHeight;
   const navigate = useNavigate();
@@ -47,6 +45,20 @@ export const Payment: React.FC<
     getPayments,
     {}
   );
+  // const updateRecord =async(coll_name:string,theid:string,data:any)=>{
+  //   const record = await client.records.update(coll_name,theid,data);
+  // }
+
+  const updateMutation = useMutation((vars: { coll_name: string, theid: string,payload: any })=>{
+
+    return client.records.update(vars.coll_name,vars.theid,vars.payload)
+  },
+  {})
+  const saveChanges = ((prev: any, current: any) =>{
+    console.log("current payload === ",current)
+    updateMutation.mutate({coll_name:"payments",theid:current.id,payload:current})
+  })
+  const validate = (prev: any, current: any) =>{return true}
   // console.log("paymentsdata === ", paymentsQuery);
   if (paymentsQuery.error) {
     return (
@@ -149,6 +161,8 @@ export const Payment: React.FC<
           rows={payments}
           header={header}
           update={update}
+          validate={validate}
+          saveChanges={saveChanges}
         />
       </div>
     </div>

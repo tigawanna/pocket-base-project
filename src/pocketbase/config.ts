@@ -1,7 +1,7 @@
 import PocketBase, { Record } from "pocketbase";
 
-import { useQuery } from "react-query";
-import { QueryClient } from "react-query";
+import { useQuery } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 
 export interface PeepResponse {
   id: string;

@@ -4,7 +4,7 @@ import { IconContext } from "react-icons/lib";
 import { Link} from "react-router-dom";
 import { FaUserCircle } from 'react-icons/fa';
 import { useAuthSignOut} from '@react-query-firebase/auth';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Admin, User } from 'pocketbase';
 import { Consent } from '../../Shared/Consent';

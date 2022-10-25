@@ -1,6 +1,6 @@
 import { User, Admin } from 'pocketbase';
 import React, { useEffect } from 'react'
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { Loading } from '../../components/Shared/Shared/Loading';
 import { client } from '../../pocketbase/config';

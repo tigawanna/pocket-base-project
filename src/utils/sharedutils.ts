@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import { Payment, tyme, Shop } from './other/types';
-import { QueryClient } from 'react-query';
+import { QueryClient } from "@tanstack/react-query";
 
 
 
