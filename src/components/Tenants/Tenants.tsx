@@ -27,7 +27,7 @@ const tenantsQuery = useCollection({key: ["tenants"]});
           return (
             <CardItems
               items={makeItems(item)}
-              navto={{url:`/tenant/${item.id}`}}
+              navto={{url:`/tenant/${item.id}`,state:item}}
               key={item.id}
             />
           );

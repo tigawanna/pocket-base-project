@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { Record } from "pocketbase";
 import { client } from "../../../pocketbase/config";
 
 
@@ -7,6 +8,7 @@ interface T {
   filter?: string;
   expand?: string;
 }
+
 export const useCollection =({key,filter="",expand=""}:T)=>{
     const fetcherFunction = async () => {
       return await client.records.getList(
@@ -19,5 +21,5 @@ export const useCollection =({key,filter="",expand=""}:T)=>{
         }
       );
     };
-    return useQuery(key, fetcherFunction);
+    return useQuery(key, fetcherFunction,{});
 }
