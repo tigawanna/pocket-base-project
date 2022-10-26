@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { Admin, User } from "pocketbase";
 import { providers } from "../../pocketbase/config";
-
+import { TheIcon } from "../../components/Shared/Shared/TheIcon";
+import { BsGoogle,BsFacebook,BsReddit,BsTwitter,BsDiscord,BsGithub} from 'react-icons/bs'
 
 
 
@@ -42,19 +43,24 @@ const startLogin = (prov:ProvType) => { localStorage.setItem("provider",JSON.str
       window.location.href = url;
     }
   };
-
+const icons = {"google":BsGoogle,"twitter":BsTwitter,"discord":BsDiscord,
+"reddit":BsReddit,"facebook":BsFacebook,"github":BsGithub}
   return (
     <div className="w-full h-full flex-center-col">
-      <div className="text-3xl font-bold ">
-        LOGIN
+      <div className="text-3xl font-bold my-3">
+        Login with
       </div>
       {provs &&
         provs?.map((item:any) => {
           return (
             <button 
-            className="p-2 bg-purple-600"
+            className="p-2 hover:bg-purple-600 border-2 text-3xl flex"
             key={item.name}
-            onClick={() => startLogin(item)}>{item.name}</button>
+            onClick={() => startLogin(item)}>
+              {/* @ts-ignore */}
+              <TheIcon size="50" Icon={icons[item.name]} color="" iconstyle="m-1" />
+              <div className="text-4xl font-bld capitalize mx-3"> {item.name}</div>
+           </button>
           );
         })}
     </div>
