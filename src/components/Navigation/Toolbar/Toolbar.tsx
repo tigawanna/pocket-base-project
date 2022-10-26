@@ -44,7 +44,9 @@ return (
      <div className='m-1 w-full p-3 bg-slate-300 flex-center text-slate-700'>
      <Link to="/shops">Shops</Link>
      </div>
-
+            <div className='m-1 w-full p-3 bg-slate-300 flex-center text-slate-700'>
+               <Link to="/tenants">Tenants</Link>
+            </div>
      <div 
       onClick={()=>setOpen(true)}
      className='  rounded-md  flex-center h-full w-40 m-1'>

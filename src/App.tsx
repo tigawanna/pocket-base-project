@@ -17,6 +17,7 @@ import { Home } from "./components/home/Home";
 import { Shop } from "./components/shops/Shop";
 import { PrintPreview } from "./components/Print/PrintPreview";
 import { Login } from "./pocketbase/auth/Login";
+import { Tenants } from "./components/Tenants/Tenants";
 
 
 
@@ -78,6 +79,14 @@ if (userQuery.isLoading ) {
               element={
                 <Protected user={user}>
                   <Shops user={user} />
+                </Protected>
+              }
+            />
+            <Route
+              path="/tenants"
+              element={
+                <Protected user={user}>
+                  <Tenants user={user} />
                 </Protected>
               }
             />
