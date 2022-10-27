@@ -87,12 +87,12 @@ class TheForm extends React.Component<Props, State> {
     //  console.log("key and value ===",kv)   
     //  const inputs = Object.keys(this.state.input);
     return (
-      <div className="w-full h-full flex-col-center">
+      <div className="w-full h-full flex flex-col items-center justify-center">
         <form
-          className="h-[70%] w-[90%] md:w-[70%] text-base font-normal flex-col-center 
+          className="h-[70%] w-[90%] md:w-[70%] text-base font-normal flex-col items-center justify-center 
           border-2 rounded-md shadow-md shadow-slate-600"
           onSubmit={this.handleSubmit} >
-          <div className="text-3xl font-bold font-serif p-1 m-1">{this.props.header}</div>
+          <div className="text-3xl font-bold p-1 m-1 w-full flex items-center justify-center ">{this.props.header}</div>
           {
             this.props.fields && this.props.fields.map((item, index) => {
             if(item.field_type === "select"){
@@ -121,13 +121,11 @@ class TheForm extends React.Component<Props, State> {
               break-words bg-red-100 text-[14px] rounded-sm
             ">{this.state.error.message}</div> : null
           }
-          <TheButton
-            label="Submit"
-            onClick={() => console.log("hey")}
-            radius="5px"
-            border={"1px  solid"}
-            margin={"9px"}
-          />
+   
+          <div className="w-full p-1 flex items-center justify-center">
+            <button className="bg-slate-900 border-2 p-1 text-lg hover:bg-purple-900 rounded-sm">
+              submit</button>
+          </div>
         </form>
       </div>
     );

@@ -1,11 +1,14 @@
+import { Admin, User } from "pocketbase";
 import React from "react";
 import { AddItemCard } from "../Shared/Shared/AddItemCard";
 import { CardItems } from "../Shared/Shared/CardItems";
+import { ModalWrapper } from "../Shared/Shared/ModalWrapper";
 import { useCollection } from "./../Shared/hooks/useCollection";
+import { TenantForm } from "./TenantForm/TenantForm";
 import { TenantType } from "./types";
 
 interface TenantsProps {
-  user: any;
+  user:User|Admin|null;
 }
 
 export const Tenants: React.FC<TenantsProps> = ({}) => {
@@ -25,9 +28,10 @@ const [open,setOpen] = React.useState(false)
   }
 
   const data = query.data?.items as TenantType[]|undefined;
- console.log(open)
+
   return (
     <div className="w-full min-h-full bg-purple-900">
+      <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm/>}/>
       <div className="flex-center  w-full  m-2 mt-14 flex-wrap">
         {data?.map((item) => {
           return (

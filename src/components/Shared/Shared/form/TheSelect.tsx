@@ -28,12 +28,12 @@ const isError = () => {
 };
 const options = item?.options
 return (
-  <div className="flex-col-center  w-full ">
-    <label className="font-bold text-md capitalize  w-[80%] flex items-start">
+  <div className="flex flex-col items-center justify-center w-full ">
+    <label className="font-bold text-md capitalize  w-[90%] flex items-start">
       {item.field_name}
     </label>
       <select id={item.field_name} onChange={handleChange} 
-       className="w-[80%] md:w-[80%] p-2 m-1  border border-black 
+       className="w-[90%]  p-2 m-1  border border-black 
         dark:border-white h-10 text-base rounded-sm   dark:bg-slate-700">
           <option value={options&&options[0].value}>Pick a {" "}{item.field_name}</option>
           {

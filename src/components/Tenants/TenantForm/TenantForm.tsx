@@ -18,7 +18,7 @@ export const TenantForm: React.FC<TenantFormProps> = ({}) => {
 
 
 return (
- <div className='w-full h-min-full flex flex-col items-center justify-center'>
+    <div className='w-[70%] h-[80%] flex items-center justify-center bg-red-900 rounded-lg shadow-lg'>
         <TheForm
             header={"SIGN-IN"}
             fields={form_input}
