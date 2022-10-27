@@ -92,7 +92,8 @@ class TheForm extends React.Component<Props, State> {
           className="h-[70%] w-[90%] md:w-[70%] text-base font-normal flex-col items-center justify-center 
           border-2 rounded-md shadow-md shadow-slate-600"
           onSubmit={this.handleSubmit} >
-          <div className="text-3xl font-bold p-1 m-1 w-full flex items-center justify-center ">{this.props.header}</div>
+          <div className="text-2xl font-bold p-1 m-1 w-full flex items-center justify-center ">
+            {this.props.header}</div>
           {
             this.props.fields && this.props.fields.map((item, index) => {
             if(item.field_type === "select"){

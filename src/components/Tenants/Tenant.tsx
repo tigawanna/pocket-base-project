@@ -1,14 +1,12 @@
-
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import { useCollection } from '../Shared/hooks/useCollection';
-import { useLocation } from 'react-router-dom';
-import { User,Admin,Record} from 'pocketbase';
+import { User,Admin} from 'pocketbase';
 import { CardItems } from '../Shared/Shared/CardItems';
 import { TenantType } from "./types";
 
 interface TenantProps {
-    user: User | Admin | null
+  user: User | Admin | null
 }
 type ParamsT = {
   tenantId:string
@@ -50,6 +48,7 @@ return (
 
 
 const makeItems = (tenant?: TenantType): CardItems[] => {
+  const piccy = tenant?.pic ? "http://192.168.0.101:8090/api/files/" + tenant?.["@collectionName"] + "/" + tenant?.id + "/" + tenant?.pic : "https://picsum.photos/id/1/100/100"
   return [
     // { value:tenant?.id , name: "id", type: "string", style: "p-1 text-xl font-bold w-full" },
     {
@@ -61,8 +60,7 @@ const makeItems = (tenant?: TenantType): CardItems[] => {
       innnerstyle:
         "p-2 m-2   text-5xl capitalize font-semibold truncate",
       image: {
-        src: "https://picsum.photos/id/1/100/100",
-        style: "h-full w-[30%] rounded-sm",
+        src:piccy, style: "h-full w-[30%] rounded-sm",
         height: 200,
         width: 200,
       },

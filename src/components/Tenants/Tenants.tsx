@@ -28,7 +28,7 @@ const [open,setOpen] = React.useState(false)
   }
 
   const data = query.data?.items as TenantType[]|undefined;
-
+  console.log("tenants === ", data)
   return (
     <div className="w-full min-h-full bg-purple-900">
       <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm/>}/>
@@ -49,6 +49,7 @@ const [open,setOpen] = React.useState(false)
 };
 
 const makeItems = ( tenant?: TenantType): CardItems[] => {
+  const piccy = tenant?.pic ? "http://192.168.0.101:8090/api/files/" + tenant?.["@collectionName"] + "/" + tenant?.id + "/" + tenant?.pic : "https://picsum.photos/id/1/100/100"
     return [
         // { value:tenant?.id , name: "id", type: "string", style: "p-1 text-xl font-bold w-full" },
         {
@@ -58,9 +59,9 @@ const makeItems = ( tenant?: TenantType): CardItems[] => {
             style:
                 "bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex  items-center ",
             innnerstyle:
-                "p-2 m-2   text-xl truncate",
+                "p-2 m-2  text-xl truncate",
             image: {
-                src: "https://picsum.photos/id/1/100/100",
+              src:piccy,
                 style: "h-20 w-20 rounded-[50%]",
                 height: 100,
                 width: 100,

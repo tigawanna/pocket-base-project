@@ -50,7 +50,7 @@ export const CardItems: React.FC<
                       <img
                 
                       className={item?.image?.style} 
-                      src={item?.image?.src as string} alt=" " 
+                    src={item?.image?.src} alt=" " 
                       height={100}
                       width={100}
                       />

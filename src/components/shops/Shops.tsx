@@ -3,9 +3,6 @@ import { AddShopCard, ShopCard, ShopFloor } from './ShopsParts';
 
 import { client } from '../../pocketbase/config';
 import { useQuery } from '@tanstack/react-query';
-import { ShopType } from '../../utils/other/types';
-import { Record } from 'pocketbase';
-import { user } from 'firebase-functions/v1/auth';
 import { IconContext } from 'react-icons';
 import { FaTimes } from 'react-icons/fa';
 import { ShopForm } from './ShopForm/ShopForm';

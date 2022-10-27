@@ -1,9 +1,12 @@
 export interface TenantType {
-  id: string;
-  created: string;
-  updated: string;
+"@collectionId"?:string 
+"@collectionName"?:string;
+  id?: string;
+  created?: string;
+  updated?: string;
+  pic?: string;
   email: string;
   name: string;
   shops: any;
-  "@expand": any;
+  "@expand"?: any;
 }
