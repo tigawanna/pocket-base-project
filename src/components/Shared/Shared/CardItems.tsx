@@ -25,9 +25,12 @@ export const CardItems: React.FC<
   return (
     <div
       onClick={() =>
-        navigate(navto?.url as string, {
+        {
+        if (navto?.url){ 
+          navigate(navto?.url as string, {
           state: navto?.state,
-        })
+        })}
+      }
       }
     className={parentstyle ? parentstyle : `p-4 m-1 flex flex-wrap bg-slate-500
      hover:shadow-slate-600 hover:shadow-lg rounded w-[90%] md:w-[30%] h-full`}
