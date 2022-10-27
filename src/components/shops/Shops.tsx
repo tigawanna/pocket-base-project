@@ -29,8 +29,9 @@ export const Shops: React.FC<ShopsProps> = ({}) => {
             }
         );
     };
+
     const shopsQuery = useQuery(["shops", floor], getShops);
-    console.log("shops query ===== ",shopsQuery.data)
+
     if (shopsQuery.error) {
 
         return (
@@ -43,6 +44,7 @@ export const Shops: React.FC<ShopsProps> = ({}) => {
     if (shopsQuery.isLoading) {
         return <div className="w-full h-full flex-center"> loading ..... </div>;
     }
+    
     const data = shopsQuery.data?.items 
 
 return (

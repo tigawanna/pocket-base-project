@@ -3,23 +3,30 @@ import React from "react";
 import { client } from "../../pocketbase/config";
 import { CardItems } from "../Shared/Shared/CardItems";
 import { useCollection } from "./../Shared/hooks/useCollection";
+import { TenantType } from "./types";
 
 interface TenantsProps {
   user: any;
 }
-export interface Tenant {
-  id: string;
-  created: string;
-  updated: string;
-  email: string;
-  name: string;
-  shops: any;
-  "@expand": any;
-}
+
 export const Tenants: React.FC<TenantsProps> = ({}) => {
-const tenantsQuery = useCollection({key: ["tenants"]});
-  console.log("tenants query ==== ",tenantsQuery.data?.items);
-  const data = tenantsQuery.data?.items as Tenant[]|undefined;
+const query = useCollection({key: ["tenants"]});
+
+
+  if (query.error) {
+  return (
+      <div className="w-full h-full flex flex-wrap  text-red-900">
+        {/* @ts-ignore */}
+        ERROR LOADING SHOPS {shopsQuery.error.message}
+      </div>);
+  }
+
+  if (query.isLoading) {
+    return <div className="w-full h-full flex-center"> loading ..... </div>;
+  }
+
+  const data = query.data?.items as TenantType[]|undefined;
+
   return (
     <div className="w-full min-h-full bg-purple-900">
       <div className="flex-center  w-full  m-2 mt-14 flex-wrap">
@@ -37,7 +44,7 @@ const tenantsQuery = useCollection({key: ["tenants"]});
   );
 };
 
-const makeItems = ( tenant?: Tenant): CardItems[] => {
+const makeItems = ( tenant?: TenantType): CardItems[] => {
     return [
         // { value:tenant?.id , name: "id", type: "string", style: "p-1 text-xl font-bold w-full" },
         {

@@ -6,6 +6,7 @@ export interface CardItems{
     name: string;
     value: any;
     type: string;
+
     style: string;
     innnerstyle ?: string
     image ?: { src: string, style?: string, height: number, width: number }
@@ -14,11 +15,12 @@ export interface CardItems{
 interface CardItemsProps {
   navto?: { url: string; state?: any };
   items:CardItems[];
+  parentstyle?: string;
 }
 
 export const CardItems: React.FC<
   CardItemsProps
-> = ({ navto, items }) => {
+> = ({ navto, items,parentstyle }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -27,8 +29,8 @@ export const CardItems: React.FC<
           state: navto?.state,
         })
       }
- className="p-4 m-1 flex flex-wrap bg-slate-500 hover:shadow-slate-600 
-    hover:shadow-lg rounded w-[90%] md:w-[30%] h-full"
+    className={parentstyle ? parentstyle : `p-4 m-1 flex flex-wrap bg-slate-500
+     hover:shadow-slate-600 hover:shadow-lg rounded w-[90%] md:w-[30%] h-full`}
     >
       {items?.map((item, index) => {
 
@@ -45,7 +47,8 @@ export const CardItems: React.FC<
           if (item.type === "with-img") {
               return (
                   <div className={item.style} key={index + item.value}>
-                      <img 
+                      <img
+                
                       className={item?.image?.style} 
                       src={item?.image?.src as string} alt=" " 
                       height={100}

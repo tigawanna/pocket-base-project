@@ -22,7 +22,7 @@ export const useCollection =({key,filter="",expand="",rqOptions={}}:T)=>{
         }
       );
     };
-    return useQuery< ListResult<Record>,unknown,ListResult<Record>,string[]>(key, fetcherFunction,rqOptions);
+  return useQuery< ListResult<Record>,unknown,ListResult<Record>,string[]>(key, fetcherFunction,rqOptions);
 }
 
 
