@@ -10,11 +10,12 @@ import { TenantType } from "./types";
 interface TenantProps {
     user: User | Admin | null
 }
-
+type ParamsT = {
+  tenantId:string
+}
 export const Tenant: React.FC<TenantProps> = ({}) => {
 
-const params = useParams();
-const location = useLocation()
+const params = useParams<ParamsT>();
 
 const query = useCollection({ key: ["tenants"],rqOptions:{
 select: (data) => {
