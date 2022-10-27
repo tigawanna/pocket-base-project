@@ -15,18 +15,16 @@ export interface PeepResponse {
   "@expand": {};
 }
 
+
+export const client = new PocketBase(import.meta.env.VITE_pb_url_agrho_lan);
+
 //agrho lan
-export const client = new PocketBase(
-  "http://192.168.0.101:8090"
-);
-//home
+// export const client = new PocketBase("http://192.168.0.101:8090");
+//home lan
 // export const client = new PocketBase("http://192.168.43.238:8090");
-//127.0.0.1
-// export const client = new PocketBase(
-//   "http://127.0.0.1:8090"
-// );
-const redirectUrl =
-  "http://127.0.0.1:8090/redirect.html";
+//localhost
+// export const client = new PocketBase( "http://127.0.0.1:8090");
+// const redirectUrl ="http://127.0.0.1:8090/redirect.html";
 
 export const getUser = async () => {
   return await client.authStore.model;

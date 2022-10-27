@@ -18,7 +18,7 @@ const params = useParams<ParamsT>();
 const query = useCollection({ key: ["tenants"],rqOptions:{
 select: (data) => {
     return data.items.filter((item) => item.id === params.tenantId)
-  }
+}
 } });
 
   if (query.error) {
