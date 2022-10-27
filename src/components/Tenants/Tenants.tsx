@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { client } from "../../pocketbase/config";
+import { AddItemCard } from "../Shared/Shared/AddItemCard";
 import { CardItems } from "../Shared/Shared/CardItems";
 import { useCollection } from "./../Shared/hooks/useCollection";
 import { TenantType } from "./types";
@@ -11,7 +10,7 @@ interface TenantsProps {
 
 export const Tenants: React.FC<TenantsProps> = ({}) => {
 const query = useCollection({key: ["tenants"]});
-
+const [open,setOpen] = React.useState(false)
 
   if (query.error) {
   return (
@@ -26,7 +25,7 @@ const query = useCollection({key: ["tenants"]});
   }
 
   const data = query.data?.items as TenantType[]|undefined;
-
+ console.log(open)
   return (
     <div className="w-full min-h-full bg-purple-900">
       <div className="flex-center  w-full  m-2 mt-14 flex-wrap">
@@ -39,6 +38,7 @@ const query = useCollection({key: ["tenants"]});
             />
           );
         })}
+        <AddItemCard styles="" action={()=>{setOpen(prev=>!prev)}}/>
       </div>
     </div>
   );
@@ -54,7 +54,7 @@ const makeItems = ( tenant?: TenantType): CardItems[] => {
             style:
                 "bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex  items-center ",
             innnerstyle:
-                "p-2 m-2   text-3xl truncate",
+                "p-2 m-2   text-xl truncate",
             image: {
                 src: "https://picsum.photos/id/1/100/100",
                 style: "h-20 w-20 rounded-[50%]",
