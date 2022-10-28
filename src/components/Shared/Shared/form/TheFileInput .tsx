@@ -44,8 +44,8 @@ export const TheFileInput: React.FC<TheFileInputProps> = ({
         // value={input[item.field_name]}
       />
       {/* @ts-ignore */}
-      <img src={input[item.field_name]} 
-      className="h-[30%] w-[30%] m-1 rounded-sm"
+      <img src={URL.createObjectURL(input[item.field_name])} 
+      className="h-[40%] w-[60%] m-1 rounded-sm"
       />
       {isError() ? (
         <div className="text-base  text-red-600">{error.message}</div>
