@@ -1,3 +1,4 @@
+import { useFirestoreDocumentData } from '@react-query-firebase/firestore';
 import { useMutation } from '@tanstack/react-query';
 import React from 'react'
 import { client } from '../../../pocketbase/config';
@@ -28,8 +29,7 @@ const addTenantMutation = useMutation((vars: { coll_name: string, payload: Tenan
 },)
     const handleSubmit = async (data:TenantFormInput) => {
         console.log("input ===== ",data)
-        // updateToken(data.token)
-    //   addTenantMutation.mutate({coll_name:'tenants',payload:data})
+       addTenantMutation.mutate({coll_name:'tenants',payload:data})
 
     };
 return (
@@ -39,7 +39,7 @@ return (
         fields={form_input}
         submitFn={handleSubmit}
         validate={validate}
-
+    
         />
  </div>
 );
@@ -56,6 +56,17 @@ const form_input: FormOptions[] = [
 
 
 const validate = ({ input, setError }: Validate) => {
-    
+    if (input.name === "") {
+        setError({ name: "name", message: "name field required" })
+        return false
+    }
+    if(input.email === ""){
+        setError({name:"email",message:"email field required"})
+    return false
+    }
+    if (input.pic === "") {
+        setError({ name: "pic", message: "pic field required" })
+        return false
+    }
     return true
 }

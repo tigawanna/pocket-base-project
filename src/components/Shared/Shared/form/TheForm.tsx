@@ -68,8 +68,11 @@ class TheForm extends React.Component<Props, State> {
       input: { ...this.state.input, [event.target.id]: value },
     });
     if (event.target.files) {
+      const formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      formData.append('title', 'Hello world!');
       this.setState({
-        input: { ...this.state.input, [event.target.id]: URL.createObjectURL(event.target.files[0]) }
+        input: { ...this.state.input, [event.target.id]:formData }
       })
     }
     // this.setError({name:"",message:""})
