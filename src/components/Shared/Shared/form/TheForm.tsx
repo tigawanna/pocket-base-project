@@ -1,23 +1,22 @@
-import React from "react";
+import React,{ReactElement} from "react";
 import { TheInput } from "./TheInput";
-import { TheButton } from './../TheButton';
 import { TheSelect } from "./TheSelect";
 import { TheFileInput } from "./TheFileInput ";
+import { TheFetchSelect } from './TheFetchSelect';
+import { UseQueryResult } from '@tanstack/react-query';
+import { FormOptions, QueryFnProps, SetInput } from "./types";
 
 type FormError = { name: string; message: string };
-interface FormOptions {
-  field_name: string;
-  field_type: string;
-  default_value: string | number
-  options?: { name: string; value: string }[]
-}
+
 
 type Props = {
   header: string;
   validate: (input: any) => boolean;
   submitFn: (input: any) => Promise<any>
   fields: FormOptions[]
-
+  extra?: ReactElement<HTMLElement>
+  data?: any[]
+  queryFn?: (props: QueryFnProps) => UseQueryResult<any, unknown>
 };
 
 type State = {
@@ -45,6 +44,7 @@ class TheForm extends React.Component<Props, State> {
     this.isValid = this.isValid.bind(this);
     this.setError = this.setError.bind(this);
     this.setFileInput = this.setFileInput.bind(this);
+    this.setInput = this.setInput.bind(this);
   }
   setError(error: FormError) {
     this.setState({ error: error });
@@ -53,6 +53,11 @@ class TheForm extends React.Component<Props, State> {
     // @ts-ignore
     input[file_key] = file
     this.setState({ input:input});
+  }
+  setInput({item,item_key}:SetInput) {
+    const newinput = this.state.input
+    newinput[item_key]=item
+    this.setState({ input:newinput });
   }
 
   isValid() {
@@ -117,6 +122,7 @@ class TheForm extends React.Component<Props, State> {
             {this.props.header}</div>
           {
             this.props.fields && this.props.fields.map((item, index) => {
+
             if(item.field_type === "select"){
               return (
                 <TheSelect
@@ -127,6 +133,7 @@ class TheForm extends React.Component<Props, State> {
                   input={this.state.input}
                 />)
             }
+
            if(item.field_type === "file"){
                 return (
                   <TheFileInput
@@ -137,6 +144,14 @@ class TheForm extends React.Component<Props, State> {
                     item={item}
                   />)
                }
+              if (item.field_type === "fetchselect") {
+                return (
+                  <TheFetchSelect
+                    key={index + item.field_name}
+                    queryFn={this.props.queryFn}
+                    head={{collection:item.misc?.coll_name as string,prop:item.field_name+".name"}}
+                  />)
+              }
               if (item.field_type !== "file") {   
               return (
               <TheInput
@@ -147,6 +162,10 @@ class TheForm extends React.Component<Props, State> {
                 item={item}
                  />)
               }
+
+
+ 
+
             })
           }
           {
@@ -155,9 +174,9 @@ class TheForm extends React.Component<Props, State> {
               break-words bg-red-100 text-[14px] rounded-sm
             ">{this.state.error.message}</div> : null
           }
-   
+     
           <div className="w-full p-1 flex items-center justify-center">
-            <button className="bg-slate-900 border-2 p-2 text-xl hover:bg-purple-900 rounded-sm">
+            <button className="bg-slate-900 border-purple-700 border-2 p-2 text-xl hover:bg-purple-900 rounded-sm">
               submit</button>
           </div>
         </form>

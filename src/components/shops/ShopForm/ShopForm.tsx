@@ -8,7 +8,7 @@ import { validate } from "./shopformvalidate";
 import dayjs from "dayjs";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { client } from "../../../pocketbase/config";
-import { TheFetchSelect } from "../../Shared/Shared/TheFetchSelect";
+import { TheFetchSelect } from "../../Shared/Shared/form/TheFetchSelect";
 
 
 

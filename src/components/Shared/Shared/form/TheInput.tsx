@@ -1,9 +1,9 @@
 import React from 'react'
-import { FormOptions } from '../../../App';
+
 
 interface TheInputProps {
   handleChange(event: React.ChangeEvent<HTMLInputElement>): Promise<void>;
-  item: FormOptions
+  item: any
   input: { name: string };
   error: {
     name: string;

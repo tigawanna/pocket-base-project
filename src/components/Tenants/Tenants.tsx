@@ -19,20 +19,21 @@ const [open,setOpen] = React.useState(false)
   return (
       <div className="w-full h-full flex flex-wrap  text-red-900">
         {/* @ts-ignore */}
-        ERROR LOADING SHOPS {shopsQuery.error.message}
+        ERROR LOADING  {query.error.message}
       </div>);
   }
 
   if (query.isLoading) {
     return <div className="w-full h-full flex-center"> loading ..... </div>;
   }
-
+ 
   const data = query.data?.items as TenantType[]|undefined;
   console.log("tenants === ", data)
   return (
     <div className="w-full min-h-full bg-purple-900">
       <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm/>}/>
       <div className="flex-center  w-full  m-2 mt-14 flex-wrap">
+        <AddItemCard styles="" action={() => { setOpen(prev => !prev) }} />
         {data?.map((item) => {
           return (
             <CardItems
@@ -42,7 +43,7 @@ const [open,setOpen] = React.useState(false)
             />
           );
         })}
-        <AddItemCard styles="" action={()=>{setOpen(prev=>!prev)}}/>
+
       </div>
     </div>
   );
