@@ -68,11 +68,8 @@ class TheForm extends React.Component<Props, State> {
       input: { ...this.state.input, [event.target.id]: value },
     });
     if (event.target.files) {
-      const formData = new FormData();
-      formData.append('file', event.target.files[0]);
-      formData.append('title', 'Hello world!');
-      this.setState({
-        input: { ...this.state.input, [event.target.id]:formData }
+     this.setState({
+        input: { ...this.state.input, [event.target.id]: event.target.files[0] }
       })
     }
     // this.setError({name:"",message:""})
@@ -88,7 +85,11 @@ class TheForm extends React.Component<Props, State> {
     else {
       try {
         // this.setError({ name: "", message: "" });
-        const result = await this.props.submitFn(this.state.input);
+        const formData = new FormData();
+        this.props.fields.map((item)=>{
+          formData.append(item.field_name, this.state.input[item.field_name])
+       })
+        const result = await this.props.submitFn(formData);
 
         console.log("save result === ", result);
         console.log("A name was submitted: ", this.state.input);
