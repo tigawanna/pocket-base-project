@@ -56,11 +56,12 @@ const makeItems = (tenant?: TenantType): CardItems[] => {
       name: "name",
       type: "with-img",
       style:
-        "bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex  items-center ",
+        `bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex flex-col 
+        md:flex-row   items-center md:items-center justify-center md:justify-start`,
       innnerstyle:
         "p-2 m-2   text-5xl capitalize font-semibold truncate",
       image: {
-        src:piccy, style: "h-full w-[30%] rounded-sm",
+        src:piccy, style: "h-full w-[50%] md:w-[30%] rounded-lg",
         height: 200,
         width: 200,
       },
