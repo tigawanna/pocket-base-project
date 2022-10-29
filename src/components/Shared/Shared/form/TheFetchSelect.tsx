@@ -52,7 +52,7 @@ if (query?.error) {
 
 return (
  <div className='w-full h-full cursor-pointer flex flex-col items-center justify-center'>
-    <label className="font-bold text-md  w-[90%] flex items-start">
+    <label className="font-bold text-white text-md  w-[90%] flex items-start">
       {head.prop}
     </label>
     <input
@@ -74,7 +74,7 @@ return (
     return (
         <div key={item.id} 
          onClick={()=>finishSearch(item)}
-        className="m-1 p-2 border-4  text-center min-w-fit rounded-lg hover:bg-purple-900">
+        className="m-1 p-2 border-4 text-white text-center min-w-fit rounded-lg hover:bg-purple-900">
         {item[args[1]]} 
         </div>
       )

@@ -117,7 +117,7 @@ class TheForm extends React.Component<Props, State> {
           font-normal flex flex-col items-center justify-center 
           border-2 rounded-md shadow-md shadow-slate-600"
           onSubmit={this.handleSubmit} >
-          <div className="text-2xl font-bold p-1 m-1 w-full flex items-center justify-center ">
+          <div className="text-2xl font-bold p-1 m-1 w-full text-white flex items-center justify-center ">
             {this.props.header}</div>
           {
             this.props.fields && this.props.fields.map((item, index) => {
@@ -176,7 +176,8 @@ class TheForm extends React.Component<Props, State> {
           }
      
           <div className="w-full p-1 flex items-center justify-center">
-            <button className="bg-slate-900 border-purple-700 border-2 p-2 text-xl hover:bg-purple-900 rounded-sm">
+            <button className="bg-slate-900 border-purple-700 border-2 p-2 m-5 text-xl
+             hover:bg-purple-900 rounded-sm text-white">
               submit</button>
           </div>
         </form>
