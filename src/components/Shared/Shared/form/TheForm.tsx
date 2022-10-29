@@ -95,11 +95,10 @@ class TheForm extends React.Component<Props, State> {
           formData.append(item.field_name, this.state.input[item.field_name])
        })
         const result = await this.props.submitFn(formData);
-
-        console.log("save result === ", result);
-        console.log("A name was submitted: ", this.state.input);
+        // console.log("save result === ", result);
+        // console.log("A name was submitted: ", this.state.input);
       } catch (err: any) {
-        console.log("error adding item", err.message);
+        // console.log("error adding item", err.message);
         this.setError({ name: "main", message: err.message });
       }
 
@@ -149,6 +148,7 @@ class TheForm extends React.Component<Props, State> {
                   <TheFetchSelect
                     key={index + item.field_name}
                     queryFn={this.props.queryFn}
+                    setInput={this.setInput}
                     head={{collection:item.misc?.coll_name as string,prop:item.field_name+".name"}}
                   />)
               }

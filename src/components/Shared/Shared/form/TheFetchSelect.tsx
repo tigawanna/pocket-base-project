@@ -1,15 +1,16 @@
 import React from 'react'
 import { UseQueryResult } from '@tanstack/react-query';
-import { QueryFnProps } from './types';
+import { QueryFnProps, SetInput } from './types';
 
 
 
 interface FetchSelectProps {
 head:{prop:string,collection:string}
-  queryFn?: (props: QueryFnProps) => UseQueryResult<any, unknown>
+queryFn?: (props: QueryFnProps) => UseQueryResult<any, unknown>
+setInput: (props: SetInput) => void
 }
 
-export const TheFetchSelect: React.FC<FetchSelectProps> = ({head,queryFn}) => {
+export const TheFetchSelect: React.FC<FetchSelectProps> = ({head,queryFn,setInput}) => {
   const args = head.prop.split('.')
   // console.log("select input ===== ",selectInput)
   const [keyword, setKeyword] = React.useState({ word:"" })
@@ -33,20 +34,23 @@ const finishSearch=(item:any)=>{
   //   return prev
   // })
 
-  // setInput({ item: keyword.word, item_key:args[0] })
+  setInput({item:item.id, item_key:args[0]})
 
 }
 let query
 if(queryFn){
-  query = queryFn({ key: args[0], keyword: keyword.word })
+  query = queryFn({ key:head.collection ,keyword: keyword.word })
 }
 const data = query?.data
-
+console.log("args === ",args)
   if (query?.error) {
     return (
-      <div className="w-full h-full flex flex-wrap  text-red-900">
-        {/* @ts-ignore */}
-        ERROR LOADING  {query.error.message}
+      <div className="w-full h-full flex justify-center items-center">
+        <div className="w-[80%] h-full flex justify-center items-center  text-red-600 text-sm">
+          {/* @ts-ignore */}
+          ERROR LOADING  {query.error.message}
+        </div>
+   
       </div>);
   }
 
@@ -63,7 +67,7 @@ return (
       {head.prop}
     </label>
     <input
-    className='text-center w-[90%] p-1'
+    className=' w-[90%] p-1'
     id="word"
     autoComplete='off'
     value={keyword.word}

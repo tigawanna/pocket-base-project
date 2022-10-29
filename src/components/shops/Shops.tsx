@@ -66,7 +66,7 @@ return (
                 <IconContext.Provider value={{ size: "50px", className: "text-slate-600" }} >
                     <FaTimes onClick={() => setOpen(false)} /></IconContext.Provider>
             </div>
-            {/* @ts-ignore */}
+       {/* @ts-ignore */}
             <ShopForm floor={floor} shops={data} open={open} setOpen={setOpen}  />
         </div> : null}
 

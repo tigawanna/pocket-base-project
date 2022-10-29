@@ -20,6 +20,7 @@ export interface NewShopType {
   tenant: string;
   monthlyrent: number;
   floor: string;
+  transferedAt:string;
 }
 
 

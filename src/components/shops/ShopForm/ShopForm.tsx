@@ -8,16 +8,15 @@ import { validate } from "./shopformvalidate";
 import dayjs from "dayjs";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { client } from "../../../pocketbase/config";
-import { TheFetchSelect } from "../../Shared/Shared/form/TheFetchSelect";
-
-
-
-
+import TheForm from "../../Shared/Shared/form/TheForm";
+import { FormOptions, QueryFnProps } from "../../Shared/Shared/form/types";
+import { useCollection } from "../../Shared/hooks/useCollection";
+import { User,Admin } from "pocketbase";
 
 
 
 interface ShopFormProps {
-  user?:any
+  user?:User|Admin|null
   floor: string;
   shops:Shop[]
   open:boolean
@@ -32,8 +31,36 @@ export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,open,setOpen,use
     second: "M2-",
     third: "M3-",
   };
-  const queryClient = useQueryClient();
-  const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
+
+  const queryFn = ({key,keyword }: QueryFnProps) => {
+    return useCollection({
+      key: [key],
+      filter: keyword,
+      rqOptions: {
+        select: (data) => {
+          if (keyword !== "") {
+            return data.items.filter((item) => item.name.toLowerCase().includes(keyword.toLowerCase()))
+          }
+
+          return data.items
+        }
+      }
+    })
+  }
+
+
+const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
+
+  const form_input: FormOptions[] = [
+    { field_name: "name", field_type: "text", default_value: "" },
+    { field_name: "floor", field_type: "text", default_value:floor },
+    //@ts-ignore
+    { field_name: "shopNumber", field_type: "text", default_value: `${floormap[floor]}${nextShopNo}` },
+    { field_name: "monthlyrent", field_type: "number", default_value: "" },
+    { field_name: "admin", field_type: "fetchselect", default_value: "", misc: { coll_name: "admins" } },
+    { field_name: "tenant", field_type: "fetchselect", default_value: "", misc: { coll_name: "tenants" } },
+    { field_name: "transferedAt", field_type: "text", default_value: new Date().toISOString() },
+  ]
 
   const [error, setError] = useState<ShopFormError>({ name: "", message: "" });
   const [input, setInput] = useState<NewShopType>({
@@ -43,13 +70,12 @@ export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,open,setOpen,use
     //@ts-ignore
    shopNumber: `${floormap[floor]}${nextShopNo}`,
   tenant:"",
+  transferedAt:new Date().toISOString()
    
 
   });
 
-  const addShopMutation = useMutation((vars: { coll_name: string, payload:NewShopType }) => {
-    return client.records.create(vars.coll_name, vars.payload)
-  },)
+
 
  
  const handleChange = (e: any) => {
@@ -61,128 +87,52 @@ export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,open,setOpen,use
   };
 
 
-
-  const handleSubmit = async(e: any) => {
-    e.preventDefault();
-
-  const item={
-   shopNumber:input.shopNumber.toUpperCase(),
-   name:input.name.toLowerCase(),
-   floor:input.floor.toLowerCase(),
-   monthlyrent:input.monthlyrent,
-   shopfloor:input.floor.toLowerCase(),
-   tenant:input.tenant.toLowerCase(),
-   madeBy:user?.displayName,
-  }
+  const addShopMutation = useMutation((vars: { coll_name: string, payload: NewShopType }) => {
+    return client.records.create(vars.coll_name, vars.payload)
+  },)
 
 
 
-    // console.log('mutatin done',addShopMutation)
+  const handleSubmit = async (data:NewShopType) => {
+     addShopMutation.mutate({ coll_name: 'shops', payload: data })
+    //  setOpen(prev=>!prev)
+  };
 
-    if (validate({ input, error, setError ,shops})) {
-          addShopMutation.mutate({coll_name:"shops",payload:item})
-       setOpen(!open)
-    }
-
- };
-
-
-
-
-
-
-  return (
+return (
     <div className="w-full h-[90%]  flex-center flex-col">
-      <form className="w-[90%] h-[80%] md:h-[60%] md:w-[60%] flex-center">
-        <div className="w-full h-full  flex-center flex-col bg-slate-500">
-          <div className="w-full flex-center flex flex-wrap">
-            <div className="w-fit bg-slate-500 p-2 text-black">
-              existing shop Nos:
-            </div>
-            {existingShopNo.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="rounded-[50%] min-w-5 min-h-5 m-1 p-2 bg-slate-600 font-bold text-white text-center"
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <div className="p-2 w-[95%] flex flex-col flex-center bg-slate-600 rounded-md text-white">
-            <label className="text-4xl font-bold capitalize mb-2 w-full ">
-              {floor}
-            </label>
-            <div className="w-full h-full flex sm:flex-row flex-col ">
-              {/* shop number */}
-              <div className="w-full flex flex-col m-1">
-                <label className="text-sm">Shop Number</label>
-                <input
-                  type="text"
-                  placeholder="Shop number"
-                  className="p-2 w-[100%]  rounded-md text-black font-semibold"
-                  id="shopNumber"
-                  onChange={handleChange}
-                  value={input.shopNumber}
-                />
-                {error && error.name === "shopNumber" ? (
-                  <div className="shop-form-error">{error.message}</div>
-                ) : null}
-              </div>
-
-              {/* shop name */}
-              <div className="w-full flex flex-col m-1">
-                <label className="text-sm">Shop Name</label>
-                <input
-                  type="text"
-                  placeholder="Shop name"
-                  className="p-2 w-[100%]  rounded-md text-black font-semibold"
-                  id="name"
-                  onChange={handleChange}
-                  value={input.name}
-                />
-                {error && error.name === "name" ? (
-                  <div className="shop-form-error">{error.message}</div>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="w-full h-full flex sm:flex-row flex-col ">
-              {/* monthly rent */}
-              <div className="w-full flex flex-col m-1">
-                <label className="text-sm">Monthly Rent</label>
-                <input
-                  type="number"
-                  placeholder="monthlyrent"
-                  className="p-2  w-[100%]  rounded-md text-black font-semibold"
-                  id="monthlyrent"
-                  onChange={handleChange}
-                  value={input.monthlyrent}
-                />
-                {error && error.name === "monthlyrent" ? (
-                  <div className="shop-form-error">{error.message}</div>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          <div className="w-full h-full flex flex-col justify-center items-center">
-            <label className="text-base font-bold">Monthly Rent</label>
-                <TheFetchSelect head={{ collection: "tenants", prop: "tenant.name" }} setInput={setInput} />
-               </div>
-
-          <button
-            onClick={(e) => handleSubmit(e)}
-            className="py-2 px-5 m-2 bg-slate-700 rounded 
-             hover:bg-slate-800 capitalize font-medium text-white"
-          >
-            add
-          </button>
+      <div className="w-full flex-center flex flex-wrap">
+        <div className="w-fit bg-slate-500 p-2 text-black">
+          existing shop Nos:
         </div>
-      </form>
+        {existingShopNo.map((item, index) => {
+          return (
+            <div
+              key={index}
+              className="rounded-[50%] min-w-5 min-h-5 m-1 p-2 bg-slate-600 font-bold text-white text-center"
+            >
+              {item}
+            </div>
+          );
+        })}
+      </div>
+      <div className='w-[70%] h-[80%] flex items-center justify-center b rounded-lg shadow-lg bg-slate-900'>
+        <TheForm
+          header={"New Shop"}
+          fields={form_input}
+          submitFn={handleSubmit}
+          validate={validate}
+          queryFn={queryFn}
+
+        />
+      </div>
+
+
     </div>
   );
 };
+
+
+
 
 
 export const formatTyme = (time?: any) => {
@@ -225,3 +175,91 @@ export const getNextShopNumber = (shops: Shop[]) => {
   const nextShopNo = nextNo < 10 ? '0' + nextNo : nextNo
   return { existingShopNo: num, nextShopNo }
 }
+
+
+
+
+
+// interface ShopFormProps {
+
+// }
+
+// export const OldShopForm: React.FC<ShopFormProps> = ({}) => {
+// return (
+//  <div>
+//     <form className="w-[90%] h-[80%] md:h-[60%] md:w-[60%] flex-center">
+//       <div className="w-full h-full  flex-center flex-col bg-slate-500">
+
+//         <div className="p-2 w-[95%] flex flex-col flex-center bg-slate-600 rounded-md text-white">
+//           <label className="text-4xl font-bold capitalize mb-2 w-full ">
+//             {/* {floor} */}
+//           </label>
+//           <div className="w-full h-full flex sm:flex-row flex-col ">
+//             {/* shop number */}
+//             <div className="w-full flex flex-col m-1">
+//               <label className="text-sm">Shop Number</label>
+//               <input
+//                 type="text"
+//                 placeholder="Shop number"
+//                 className="p-2 w-[100%]  rounded-md text-black font-semibold"
+//                 id="shopNumber"
+//                 // onChange={handleChange}
+//                 // value={input.shopNumber}
+//               />
+//               {error && error.name === "shopNumber" ? (
+//                 <div className="shop-form-error">{error.message}</div>
+//               ) : null}
+//             </div>
+
+//             {/* shop name */}
+//             <div className="w-full flex flex-col m-1">
+//               <label className="text-sm">Shop Name</label>
+//               <input
+//                 type="text"
+//                 placeholder="Shop name"
+//                 className="p-2 w-[100%]  rounded-md text-black font-semibold"
+//                 id="name"
+//                 onChange={handleChange}
+//                 value={input.name}
+//               />
+//               {error && error.name === "name" ? (
+//                 <div className="shop-form-error">{error.message}</div>
+//               ) : null}
+//             </div>
+//           </div>
+
+//           <div className="w-full h-full flex sm:flex-row flex-col ">
+//             {/* monthly rent */}
+//             <div className="w-full flex flex-col m-1">
+//               <label className="text-sm">Monthly Rent</label>
+//               <input
+//                 type="number"
+//                 placeholder="monthlyrent"
+//                 className="p-2  w-[100%]  rounded-md text-black font-semibold"
+//                 id="monthlyrent"
+//                 onChange={handleChange}
+//                 value={input.monthlyrent}
+//               />
+//               {error && error.name === "monthlyrent" ? (
+//                 <div className="shop-form-error">{error.message}</div>
+//               ) : null}
+//             </div>
+//           </div>
+//         </div>
+//         <div className="w-full h-full flex flex-col justify-center items-center">
+//           <label className="text-base font-bold">Monthly Rent</label>
+//           <TheFetchSelect head={{ collection: "tenants", prop: "tenant.name" }} setInput={setInput} />
+//         </div>
+
+//         <button
+//           onClick={(e) => handleSubmit(e)}
+//           className="py-2 px-5 m-2 bg-slate-700 rounded 
+//              hover:bg-slate-800 capitalize font-medium text-white"
+//         >
+//           add
+//         </button>
+//       </div>
+//     </form>
+//  </div>
+// );
+// }

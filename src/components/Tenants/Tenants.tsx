@@ -28,7 +28,7 @@ const [open,setOpen] = React.useState(false)
   }
  
   const data = query.data?.items as TenantType[]|undefined;
-  console.log("tenants === ", data)
+
   return (
     <div className="w-full min-h-full bg-purple-900">
       <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm/>}/>

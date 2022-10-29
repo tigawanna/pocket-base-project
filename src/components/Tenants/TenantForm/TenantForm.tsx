@@ -44,9 +44,8 @@ const addTenantMutation = useMutation((vars: { coll_name: string, payload: Tenan
 const handleSubmit = async (data:TenantFormInput) => {
   console.log("input ===== ",data)
      addTenantMutation.mutate({coll_name:'tenants',payload:data})
-
 };
-console.log("query === ,query")
+
 return (
     <div className='w-[70%] h-[80%] flex items-center justify-center b rounded-lg shadow-lg bg-slate-900'>
         <TheForm

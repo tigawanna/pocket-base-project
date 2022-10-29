@@ -18,6 +18,6 @@ data:any[]; keyword:string
 }
 
 export interface QueryFnProps{
-key:string
 keyword:string
+key:string
 }
