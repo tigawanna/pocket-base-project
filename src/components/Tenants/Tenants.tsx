@@ -32,7 +32,7 @@ const [open,setOpen] = React.useState(false)
   return (
     <div className="w-full min-h-full ">
       <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm setOpen={setOpen}/>}/>
-      <div className="flex-center  w-full   mt-14 flex-wrap ">
+      <div className="flex-center  w-full  mt-14 flex-wrap ">
         <AddItemCard styles="" action={() => { setOpen(prev => !prev) }} />
         {data?.map((item) => {
           return (

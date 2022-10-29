@@ -1,25 +1,39 @@
 import React from "react";
-import { NewShopType, Shop} from "../../../utils/other/types";
-import { validate } from "./shopformvalidate";
 import dayjs from "dayjs";
 import { useMutation, useQueryClient} from '@tanstack/react-query';
-import { client } from "../../../pocketbase/config";
-import TheForm from "../../Shared/Shared/form/TheForm";
-import { FormOptions, QueryFnProps } from "../../Shared/Shared/form/types";
-import { useCollection} from "../../Shared/hooks/useCollection";
 import { User,Admin } from "pocketbase";
+import { NewShopType, Shop } from "../../utils/other/types";
+import { client } from "../../pocketbase/config";
+import { useCollection } from "../Shared/hooks/useCollection";
+import TheForm from "../Shared/Shared/form/TheForm";
+import { QueryFnProps, FormOptions } from "../Shared/Shared/form/types";
+import { validate } from "./paymentformvalidate";
 
-
-
-interface ShopFormProps {
-  user?:User|Admin|null
-  floor: string;
-  shops:Shop[]
-  open:boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+export interface NewPayment {
+  amount: number;
+  madeBy: string
+  shop: string
+  deletedAt?: string
+  deletedBy?: string
+  updatedBy?: string
+  updatedAt?: string
 }
 
-export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,setOpen}) => {
+export interface ValidatePayment{
+error:{name:string;error:string}
+setError: React.Dispatch<React.SetStateAction<{ name: string; error: string }>>
+input:NewPayment
+}
+
+
+interface PaymentFormProps {
+  user?:User|Admin|null
+  open:boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+
+}
+
+export const PaymentForm: React.FC<PaymentFormProps> = ({setOpen}) => {
 const queryClient = useQueryClient();
   // console.log("user in shops  ==== ", user?.displayName);
   const floormap = {
@@ -46,19 +60,13 @@ const queryClient = useQueryClient();
   }
 
 
-const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
+
 
   const form_input: FormOptions[] = [
-    { field_name: "name", field_type: "text", default_value: "" },
-    { field_name: "floor", field_type: "text", default_value:floor },
-    //@ts-ignore
-    { field_name: "shopNumber", field_type: "text", default_value: `${floormap[floor]}${nextShopNo}` },
-    { field_name: "monthlyrent", field_type: "number", default_value: "" },
-    { field_name: "admin", field_type: "fetchselect", default_value: "", misc: { coll_name: "admins" } },
-    { field_name: "tenant", field_type: "fetchselect", default_value: "", misc: { coll_name: "tenants" } },
-    { field_name: "transferedAt", field_type: "text", default_value: new Date().toISOString() },
-  ]
-
+    { field_name: "amount", field_type: "number", default_value: "" },
+    { field_name: "createdBy", field_type: "fetchselect", default_value: "", misc: { coll_name: "admins" } },
+    { field_name: "shop", field_type: "fetchselect", default_value: "", misc: { coll_name: "shops" } },
+ ]
 
 
 
@@ -66,64 +74,52 @@ const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
  
   useMutation((vars: { coll_name: string, payload: NewShopType }) => {
     return client.records.create(vars.coll_name, vars.payload)
-  },{
-    onMutate: async (newItem) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+  }
+  ,
+  // {
+  //   onMutate: async (newItem) => {
+  //     // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
 
-      await queryClient.cancelQueries(["shops"]);
-      // Snapshot the previous value
-      const previousItems = queryClient.getQueryData(["shops"]);
-      // Optimistically update to the new value
-      console.log("previuos   === ", newItem, previousItems)
-      //@ts-ignore
-      queryClient.setQueryData(["shops"], (old) => {old.items[newItem.payload.id] = newItem.payload
-        return old
-      });
-      // Return a context object with the snapshotted value
-      console.log("previuos after edit  === ", previousItems)
-      return { previousItems };
-    },
-    // If the mutation fails, use the context returned from onMutate to roll back
-    // onError: (err, newTodo, context) => {
-    //   //@ts-ignore
-    //   queryClient.setQueryData(["payments"], context.previous);
-    // },
-    // // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(["shops"]);
-    },
-  })
+  //     await queryClient.cancelQueries(["payments"]);
+  //     // Snapshot the previous value
+  //     const previousItems = queryClient.getQueryData(["payments"]);
+  //     // Optimistically update to the new value
+  //     console.log("previuos   === ", newItem, previousItems)
+  //     //@ts-ignore
+  //     queryClient.setQueryData(["payments"], (old) => {old.items[newItem.payload.id] = newItem.payload
+  //       return old
+  //     });
+  //     // Return a context object with the snapshotted value
+  //     console.log("previuos after edit  === ", previousItems)
+  //     return { previousItems };
+  //   },
+  //   // If the mutation fails, use the context returned from onMutate to roll back
+  //   // onError: (err, newTodo, context) => {
+  //   //   //@ts-ignore
+  //   //   queryClient.setQueryData(["payments"], context.previous);
+  //   // },
+  //   // // Always refetch after error or success:
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries(["payments"]);
+  //   },
+  // }
+  
+  )
 
 
 
   const handleSubmit = async (data:NewShopType) => {
-     addShopMutation.mutate({ coll_name: 'shops', payload: data })
+     addShopMutation.mutate({ coll_name: 'payments', payload: data })
      setOpen(prev=>!prev)
   };
 
 return (
     <div className="w-full h-[90%]  flex flex-col items-center justify-center">
-    <div className="w-[90%] md:w-[60%] flex flex-wrap rounded-lg 
-      items-center justify-center bg-slate-900 p-1 m-1">
-        <div className="w-fit bg-slate-500 m-1 px-2 text-white font-bold rounded-md">
-          existing shop Nos:
-        </div>
-        {existingShopNo.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="rounded-md 
-              m-1 px-2 bg-slate-600 font-bold text-white text-center"
-            >
-              {item}
-            </div>
-          );
-        })}
-      </div>
+  
       <div className='w-[90%] md:w-[60%] h-[80%] flex items-center justify-center 
        rounded-lg shadow-lg bg-slate-900'>
         <TheForm
-          header={"New Shop"}
+          header={"New Payment"}
           fields={form_input}
           submitFn={handleSubmit}
           validate={validate}

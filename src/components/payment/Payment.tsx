@@ -10,6 +10,8 @@ import { IconContext } from "react-icons";
 import { FaRegEdit, FaPlus, FaTimes, FaPrint } from "react-icons/fa";
 import { months, monthindex, getMonthIndex } from "../../utils/paymentutils";
 import { useQuery,useMutation, useQueryClient } from "@tanstack/react-query";
+import { ModalWrapper } from "../Shared/Shared/ModalWrapper";
+import { PaymentForm } from './PaymentForm';
 
 
 interface PaymentProps {
@@ -40,16 +42,9 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
   const [open, setOpen] = React.useState(false);
   const [month, setMonth] = React.useState<string>(getmonth);
   const queryClient = useQueryClient();
+ const selectMonth = (index: number) => {setMonth(months[index]);};
 
-  const selectMonth = (index: number) => {
-    setMonth(months[index]);
-  };
-
-  const paymentsQuery = useQuery(
-    ["payments"],
-    getPayments,
-    {}
-  );
+  const paymentsQuery = useQuery(["payments"],getPayments,{});
   // const updateRecord =async(coll_name:string,theid:string,data:any)=>{
   //   const record = await client.records.update(coll_name,theid,data);
   // }
@@ -74,15 +69,10 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
       console.log("previuos after edit  === ", previousItems)
       return { previousItems };
     }, 
-      // If the mutation fails, use the context returned from onMutate to roll back
-      // onError: (err, newTodo, context) => {
-      //   //@ts-ignore
-      //   queryClient.setQueryData(["payments"], context.previous);
-      // },
-      // // Always refetch after error or success:
-      onSettled: () => {
+
+    onSettled: () => {
         queryClient.invalidateQueries(["payments"]);
-      },
+    },
 
 
 })
@@ -126,6 +116,7 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
         className="h-fit w-full bg-slate-400  flex-wrap flex-center fixed top-[60px]
       right-1 left-1 p-1 "
       >
+
         <div className="h-full w-fit bg-slate-600 p-2  flex-center rounded-xl">
           <IconContext.Provider
             value={{
@@ -186,6 +177,8 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
           })}
         </div>
       </div>
+      <ModalWrapper open={open} setOpen={setOpen} children={<PaymentForm 
+      setOpen={setOpen} open={open} />} />
       <div
         style={{
           // top: `${ratio}%`,
