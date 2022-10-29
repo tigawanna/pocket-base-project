@@ -74,7 +74,7 @@ return (
     return (
         <div key={item.id} 
          onClick={()=>finishSearch(item)}
-        className="m-1 p-2 border-4 text-white text-center min-w-fit rounded-lg hover:bg-purple-900">
+        className="m-1 py-1 px-2 border-2 text-white text-center min-w-fit rounded-lg hover:bg-purple-900">
         {item[args[1]]} 
         </div>
       )

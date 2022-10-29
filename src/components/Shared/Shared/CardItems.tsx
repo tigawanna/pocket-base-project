@@ -32,7 +32,7 @@ export const CardItems: React.FC<
         })}
       }
       }
-    className={parentstyle ? parentstyle : `p-4 m-1 flex flex-wrap bg-slate-500
+    className={parentstyle ? parentstyle : `p-4 m-1 flex flex-wrap bg-slate-500 text-white
      hover:shadow-slate-600 hover:shadow-lg rounded w-[90%] md:w-[30%] h-full`}
     >
       {items?.map((item, index) => {

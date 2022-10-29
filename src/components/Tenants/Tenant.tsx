@@ -35,11 +35,11 @@ select: (data) => {
 const tenant = query?.data as TenantType | undefined
 
 return (
- <div className='w-full min-h-full flex flex-col items-center'>
+ <div className='w-full min-h-full flex flex-col items-center '>
   {/* @ts-ignore */}
     <CardItems items={makeItems(tenant[0])} 
       parentstyle={`p-4 m-1 flex flex-col border-2
-     hover:shadow-slate-600 hover:shadow-lg rounded w-[90%] h-full`}
+     hover:shadow-slate-600 hover:shadow-lg rounded w-[90%] h-full bg-slate-500 text-white`}
     />
 
  </div>
@@ -56,12 +56,12 @@ const makeItems = (tenant?: TenantType): CardItems[] => {
       name: "name",
       type: "with-img",
       style:
-        `bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex flex-col 
-        md:flex-row   items-center md:items-center justify-center md:justify-start`,
+        `border-2  p-2 my-2 rounded-lg w-full h-full flex flex-col 
+        md:flex-row  items-center md:items-center justify-center md:justify-start`,
       innnerstyle:
         "p-2 m-2   text-5xl capitalize font-semibold truncate",
       image: {
-        src:piccy, style: "h-full w-[50%] md:w-[30%] rounded-lg",
+        src:piccy, style: "h-full w-[50%] md:w-[30%] rounded-lg border-2",
         height: 200,
         width: 200,
       },
@@ -70,13 +70,13 @@ const makeItems = (tenant?: TenantType): CardItems[] => {
       value: tenant?.email,
       name: "email",
       type: "string",
-      style: "font-bold w-full",
+      style: "text-xl w-full",
     },
     {
       value: tenant?.created,
       name: "created",
       type: "date",
-      style: "font-bold",
+      style: "text-xl",
     },
   ];
 };

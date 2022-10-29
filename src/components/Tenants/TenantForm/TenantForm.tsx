@@ -6,11 +6,11 @@ import { useCollection } from '../../Shared/hooks/useCollection';
 import TheForm from '../../Shared/Shared/form/TheForm';
 import { FormOptions, QueryFnProps } from '../../Shared/Shared/form/types';
 import { TenantType } from './../types';
-import { FilterParams } from './../../Shared/Shared/form/types';
+
 
 
 interface TenantFormProps {
-
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 interface TenantFormInput extends TenantType{
 
@@ -18,10 +18,11 @@ interface TenantFormInput extends TenantType{
 
 interface Validate {
     input: TenantFormInput;
+
     setError: (error: { name: string; message: string }) => void;
 }
 
-export const TenantForm: React.FC<TenantFormProps> = ({}) => {
+export const TenantForm: React.FC<TenantFormProps> = ({setOpen}) => {
  
 const queryFn=({key,keyword}:QueryFnProps)=>{
     return useCollection({key:[key],
@@ -43,11 +44,13 @@ const addTenantMutation = useMutation((vars: { coll_name: string, payload: Tenan
 },)
 const handleSubmit = async (data:TenantFormInput) => {
   console.log("input ===== ",data)
-     addTenantMutation.mutate({coll_name:'tenants',payload:data})
+ addTenantMutation.mutate({coll_name:'tenants',payload:data})
+ setOpen(prev=>!prev)
+
 };
 
 return (
-    <div className='w-[70%] h-[80%] flex items-center justify-center b rounded-lg shadow-lg bg-slate-900'>
+    <div className='w-[95%] md:w-[60%] h-[80%] flex items-center justify-center b rounded-lg shadow-lg bg-slate-900'>
         <TheForm
         header={"New Tenant"}
         fields={form_input}
@@ -63,7 +66,6 @@ const form_input: FormOptions[] = [
 { field_name: "name", field_type: "text", default_value: "" },
 { field_name: "email", field_type: "text", default_value: "" },
 { field_name: "pic", field_type: "file", default_value: "" },
-{ field_name: "token", field_type: "text", default_value: "" },
 { field_name: "shops", field_type:"fetchselect",default_value:"",misc:{coll_name:"shops"}}
 ]
 

@@ -30,9 +30,9 @@ const [open,setOpen] = React.useState(false)
   const data = query.data?.items as TenantType[]|undefined;
 
   return (
-    <div className="w-full min-h-full bg-purple-900">
-      <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm/>}/>
-      <div className="flex-center  w-full  m-2 mt-14 flex-wrap">
+    <div className="w-full min-h-full ">
+      <ModalWrapper open={open} setOpen={setOpen} children={<TenantForm setOpen={setOpen}/>}/>
+      <div className="flex-center  w-full   mt-14 flex-wrap ">
         <AddItemCard styles="" action={() => { setOpen(prev => !prev) }} />
         {data?.map((item) => {
           return (
@@ -40,6 +40,7 @@ const [open,setOpen] = React.useState(false)
               items={makeItems(item)}
               navto={{url:`/tenant/${item.id}`,state:item}}
               key={item.id}
+              parentstyle={''}
             />
           );
         })}
@@ -58,12 +59,12 @@ const makeItems = ( tenant?: TenantType): CardItems[] => {
             name: "name",
             type: "with-img",
             style:
-                "bg-slate-600  p-2 my-2 rounded-lg w-full h-full flex  items-center ",
+                "border-2 p-2 my-2 rounded-lg w-full h-full flex  items-center ",
             innnerstyle:
-                "p-2 m-2  text-xl truncate",
+                "p-2 m-2  text-2xl capitalize truncate",
             image: {
               src:piccy,
-                style: "h-20 w-20 rounded-[50%]",
+                style: "h-20 w-20 rounded-[20%] border-2",
                 height: 100,
                 width: 100,
             },

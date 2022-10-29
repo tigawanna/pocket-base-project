@@ -1,12 +1,8 @@
-
-
-
 import React from "react";
-import { useState } from "react";
-import { NewShopType, Shop, ShopFormError } from "../../../utils/other/types";
+import { NewShopType, Shop} from "../../../utils/other/types";
 import { validate } from "./shopformvalidate";
 import dayjs from "dayjs";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation} from '@tanstack/react-query';
 import { client } from "../../../pocketbase/config";
 import TheForm from "../../Shared/Shared/form/TheForm";
 import { FormOptions, QueryFnProps } from "../../Shared/Shared/form/types";
@@ -23,7 +19,7 @@ interface ShopFormProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,open,setOpen,user}) => {
+export const ShopForm: React.FC<ShopFormProps> = ({ floor,shops,setOpen}) => {
   // console.log("user in shops  ==== ", user?.displayName);
   const floormap = {
     ground: "G-",
@@ -62,18 +58,7 @@ const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
     { field_name: "transferedAt", field_type: "text", default_value: new Date().toISOString() },
   ]
 
-  const [error, setError] = useState<ShopFormError>({ name: "", message: "" });
-  const [input, setInput] = useState<NewShopType>({
-   monthlyrent: 10000,
-    floor,
-     name: "",
-    //@ts-ignore
-   shopNumber: `${floormap[floor]}${nextShopNo}`,
-  tenant:"",
-  transferedAt:new Date().toISOString()
-   
 
-  });
 
 
  const addShopMutation = useMutation((vars: { coll_name: string, payload: NewShopType }) => {
@@ -84,14 +69,14 @@ const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
 
   const handleSubmit = async (data:NewShopType) => {
      addShopMutation.mutate({ coll_name: 'shops', payload: data })
-    //  setOpen(prev=>!prev)
+     setOpen(prev=>!prev)
   };
 
 return (
     <div className="w-full h-[90%]  flex flex-col items-center justify-center">
     <div className="w-[90%] md:w-[60%] flex flex-wrap rounded-lg 
       items-center justify-center bg-slate-900 p-1 m-1">
-        <div className="w-fit bg-slate-500 m-1 px-2 text-black rounded-md">
+        <div className="w-fit bg-slate-500 m-1 px-2 text-white font-bold rounded-md">
           existing shop Nos:
         </div>
         {existingShopNo.map((item, index) => {
