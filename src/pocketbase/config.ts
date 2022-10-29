@@ -36,8 +36,7 @@ export const getUser = async () => {
 //       "SBwptpWeAN9BezV"
 //     );
 // };
-export const providers =
-  await client.users.listAuthMethods();
+export const providers = await client.users.listAuthMethods();
 // console.log("provider data === ",providers)
 // export const oAuthSignIn=async()=>{
 //   const providers = await client.users.listAuthMethods();

@@ -12,13 +12,13 @@ setInput: (props: SetInput) => void
 
 export const TheFetchSelect: React.FC<FetchSelectProps> = ({head,queryFn,setInput}) => {
   const args = head.prop.split('.')
-  // console.log("select input ===== ",selectInput)
   const [keyword, setKeyword] = React.useState({ word:"" })
-  const [doSearch,setDosearch]=React.useState(false)
 
-//  React.useEffect(()=>{
-//    setKeyword({ word: selectInput[`${args[0]}`][args[1]] })
-//   },[selectInput])
+
+  let query
+ if (queryFn) {
+    query = queryFn({ key: head.collection, keyword: keyword.word })
+  }
 
 const handleChange = (e:any) => {
   const { value } = e.target;
@@ -26,24 +26,13 @@ const handleChange = (e:any) => {
 };
 
 const finishSearch=(item:any)=>{
-  setDosearch(false)
   setKeyword({ word: item[args[1]] })
-
-  // setInput((prev:any)=>{
-  //   prev[args[0]] = item.id
-  //   return prev
-  // })
-
   setInput({item:item.id, item_key:args[0]})
+}
 
-}
-let query
-if(queryFn){
-  query = queryFn({ key:head.collection ,keyword: keyword.word })
-}
+
 const data = query?.data
-console.log("args === ",args)
-  if (query?.error) {
+if (query?.error) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-[80%] h-full flex justify-center items-center  text-red-600 text-sm">
@@ -67,12 +56,13 @@ return (
       {head.prop}
     </label>
     <input
-    className=' w-[90%] p-1'
+      className='w-[90%] p-2 m-1 text-white   border border-black 
+      dark:border-white h-10 text-base rounded-sm   dark:bg-slate-700'
     id="word"
     autoComplete='off'
     value={keyword.word}
     onChange={handleChange}
-    onInput={()=>setDosearch(true)}
+
     />
   {data?.length < 1 ?
   <div className="w-[70%] h-full cursor-pointer flex flex-col items-center justify-center
@@ -80,7 +70,7 @@ return (
     ">0 results found , try creating the reccord then try again</div>:null
   }
     <div className='w-[90%] border-2 rounded-lg flex flex-wrap items-center justify-center'>
-    {doSearch&&data?.map((item:any)=>{
+    {data?.map((item:any)=>{
     return (
         <div key={item.id} 
          onClick={()=>finishSearch(item)}

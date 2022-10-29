@@ -33,8 +33,8 @@ return (
     </label>
     <input
       style={{ borderColor: isError() ? "red" : "" }}
-      className="w-[90%] p-2 m-1   border border-black dark:border-white h-10 text-base
-       rounded-sm   dark:bg-slate-700"
+      className="w-[90%] p-2 m-1 text-white   border border-black 
+      dark:border-white h-10 text-base rounded-sm   dark:bg-slate-700"
       id={item.field_name}
       type={item.field_type}
       placeholder={"enter " + item.field_name}

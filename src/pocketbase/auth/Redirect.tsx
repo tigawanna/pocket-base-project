@@ -19,6 +19,7 @@ const navigate = useNavigate()
 const [searchParams] = useSearchParams();
 const code = searchParams.get('code') as string
 const local_prov = JSON.parse(localStorage.getItem('provider') as string)
+console.log("provs in loacl host ==== ",local_prov)
 // this hasto match what you orovided in the oauth provider , in tis case google
 let redirectUrl = 'http://localhost:3000/redirect'
 useEffect(()=>{

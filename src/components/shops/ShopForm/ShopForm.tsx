@@ -76,18 +76,7 @@ const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
   });
 
 
-
- 
- const handleChange = (e: any) => {
-    const { value } = e.target;
-    setInput({
-      ...input,
-      [e.target.id]: value,
-    });
-  };
-
-
-  const addShopMutation = useMutation((vars: { coll_name: string, payload: NewShopType }) => {
+ const addShopMutation = useMutation((vars: { coll_name: string, payload: NewShopType }) => {
     return client.records.create(vars.coll_name, vars.payload)
   },)
 
@@ -99,23 +88,26 @@ const {existingShopNo,nextShopNo}=getNextShopNumber(shops)
   };
 
 return (
-    <div className="w-full h-[90%]  flex-center flex-col">
-      <div className="w-full flex-center flex flex-wrap">
-        <div className="w-fit bg-slate-500 p-2 text-black">
+    <div className="w-full h-[90%]  flex flex-col items-center justify-center">
+    <div className="w-[90%] md:w-[60%] flex flex-wrap rounded-lg 
+      items-center justify-center bg-slate-900 p-1 m-1">
+        <div className="w-fit bg-slate-500 m-1 px-2 text-black rounded-md">
           existing shop Nos:
         </div>
         {existingShopNo.map((item, index) => {
           return (
             <div
               key={index}
-              className="rounded-[50%] min-w-5 min-h-5 m-1 p-2 bg-slate-600 font-bold text-white text-center"
+              className="rounded-md 
+              m-1 px-2 bg-slate-600 font-bold text-white text-center"
             >
               {item}
             </div>
           );
         })}
       </div>
-      <div className='w-[70%] h-[80%] flex items-center justify-center b rounded-lg shadow-lg bg-slate-900'>
+      <div className='w-[90%] md:w-[60%] h-[80%] flex items-center justify-center 
+       rounded-lg shadow-lg bg-slate-900'>
         <TheForm
           header={"New Shop"}
           fields={form_input}

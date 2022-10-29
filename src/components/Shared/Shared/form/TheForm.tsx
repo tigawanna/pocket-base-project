@@ -83,7 +83,7 @@ class TheForm extends React.Component<Props, State> {
   async handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
  
-    console.log("is valid: ", this.isValid());
+
     if (!this.isValid()) {
       console.log("the error ", this.state.error);
     }

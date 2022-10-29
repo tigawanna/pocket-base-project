@@ -33,13 +33,11 @@ React.useEffect(()=>{
   }
 },[])
 
-const startLogin = (prov:ProvType) => { localStorage.setItem("provider",JSON.stringify(prov));
+const startLogin = (prov:ProvType) => { 
+  localStorage.setItem("provider",JSON.stringify(prov));
   const redirectUrl = "http://localhost:3000/redirect";
   const url = prov.authUrl + redirectUrl;
-      // console.log("prov in button === ", prov)
-      // console.log("combined url ==== >>>>>>  ",url)
-  
-    if (typeof window !== "undefined") {
+  if (typeof window !== "undefined") {
       window.location.href = url;
     }
   };
@@ -54,7 +52,8 @@ const icons = {"google":BsGoogle,"twitter":BsTwitter,"discord":BsDiscord,
         provs?.map((item:any) => {
           return (
             <button 
-            className="p-2 hover:bg-purple-600 border-2 text-3xl flex"
+            className="p-2 hover:bg-purple-900 bg-slate-900 text-white border-2 text-3xl 
+            flex items-center justify-center m-2"
             key={item.name}
             onClick={() => startLogin(item)}>
               {/* @ts-ignore */}
