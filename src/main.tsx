@@ -5,6 +5,7 @@ import './index.css'
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import ErrorBoundary from './components/Shared/Shared/ErrorBoundary';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,10 +20,12 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <ErrorBoundary>
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} position={"top-left"} />
     <React.StrictMode>
       <App />
     </React.StrictMode>
   </QueryClientProvider>
+  </ErrorBoundary>
 );

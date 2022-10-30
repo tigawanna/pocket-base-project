@@ -71,8 +71,8 @@ const addItemId=(item:any,prop:string,type:string)=>{
 if(type === "id"){ 
  item["id"]=item[prop]
 }
-
 }
+
 const [selectInput, setSelectinput] = useState(item['@expand'])
 
 const currentlyEditing = editIdx === index;
@@ -94,7 +94,7 @@ const currentlyEditing = editIdx === index;
           {currentlyEditing&&head.editable ? (
             <div>
 
-              {head.type === 'expand' || head.type === '@expand' ?
+              {head.type === '@expand' ?
                 <TableSelect handleChange={handleChange} head={head} item={item} 
                 input={input} setInput={setInput}
                 selectInput={selectInput} setSelectInput={setSelectinput}

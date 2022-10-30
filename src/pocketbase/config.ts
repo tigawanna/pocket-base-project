@@ -65,10 +65,9 @@ export const realTime = async (
   index: [string],
   queryClient: QueryClient
 ) => {
-  return await client.realtime.subscribe(
-    "peeps",
+  return await client.realtime.subscribe(index[0],
     function (e) {
-      console.log("real time peeps", e.record);
+      console.log("new real time response", e.record);
       appendToCache(index, queryClient, e.record);
 
       //    queryClient.setQueryData(["peeps", { id: e.record.id }], e.record);
@@ -94,10 +93,17 @@ export const appendToCache = async (
   newData: any
 ) => {
   queryClient.setQueryData(index, (old: any) => {
-    old.unshift(newData);
-    return old;
+    console.log("old to be unshifted === ",old)
+        console.log(" new data === ",newData)
+    if(old){
+     old.items.unshift(newData);
+      return old;
+    }
+   return newData; 
+
   });
 };
+
 
 export const getPrevdata = (
   index: [string],

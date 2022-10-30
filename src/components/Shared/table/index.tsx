@@ -8,6 +8,7 @@ import { tymeToDate } from './components/TheTable/utils/utils';
 import { Header, Tyme } from './components/TheTable/utils/types';
 
 
+
 export interface TheTableProps {
   rows?:any[]
   header:Header[]
@@ -99,6 +100,7 @@ export interface TheTableProps {
   
    //convert row from td cell to input to start editing
    const startEditing = (index: number,item:any) => {
+    console.log("item === ",item)
      if (index === -23) {
        setEditIdx(-23);
      } else {
@@ -138,6 +140,7 @@ export interface TheTableProps {
   
    //save the edits to db
    const stopEditing = async (index: number) => {
+    
       if(validate?.(before,input)){
        data?.splice(index, 1,input);
       setEditIdx(-1);
@@ -201,6 +204,7 @@ export interface TheTableProps {
               </tr>
             </IconContext.Provider>
           </thead>
+  
           <tbody className="h-full">
             {data &&
               data.map((dataitem: Object, dataindex: number) => {

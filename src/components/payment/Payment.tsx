@@ -1,5 +1,5 @@
 import React from "react";
-import { client } from "../../pocketbase/config";
+import { client, realTime } from "../../pocketbase/config";
 
 import { PaymentResponnse } from "../../utils/other/types";
 import { Record } from "pocketbase";
@@ -42,6 +42,7 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
   const [open, setOpen] = React.useState(false);
   const [month, setMonth] = React.useState<string>(getmonth);
   const queryClient = useQueryClient();
+  realTime(['payments'],queryClient)
  const selectMonth = (index: number) => {setMonth(months[index]);};
 
   const paymentsQuery = useQuery(["payments"],getPayments,{});
@@ -108,7 +109,7 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
   const payments = paymentsQuery.data?.items as
     | PaymentResponnse[]
     | Record[];
-
+// console.log("payments ==== ",paymentsQuery)
   return (
     <div className="w-full h-full flex-center">
       <div

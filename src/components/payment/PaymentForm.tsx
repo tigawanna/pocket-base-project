@@ -60,9 +60,7 @@ const queryClient = useQueryClient();
   }
 
 
-
-
-  const form_input: FormOptions[] = [
+const form_input: FormOptions[] = [
     { field_name: "amount", field_type: "number", default_value: "" },
     { field_name: "createdBy", field_type: "fetchselect", default_value: "", misc: { coll_name: "admins" } },
     { field_name: "shop", field_type: "fetchselect", default_value: "", misc: { coll_name: "shops" } },
@@ -77,26 +75,32 @@ const queryClient = useQueryClient();
   }
   ,
     {
-      onMutate: async (newItem) => {
-        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      // onMutate: async (newItem) => {
+      //   console.log("new item === ",newItem)
+      //   // // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
 
-        await queryClient.cancelQueries(["payments"]);
-        // Snapshot the previous value
-        const previousItems = queryClient.getQueryData(["payments"]);
-        // Optimistically update to the new value
-        console.log("previuos   === ", newItem, previousItems)
-        //@ts-ignore
-        queryClient.setQueryData(["payments"], (old) => { old.items[newItem.payload.id] = newItem.payload
-          return old
-        });
-        // Return a context object with the snapshotted value
-        console.log("previuos after edit  === ", previousItems)
-        return { previousItems };
-      },
+      //   await queryClient.cancelQueries(["payments"]);
+      //   // // Snapshot the previous value
+      //   const previousItems = queryClient.getQueryData(["payments"]);
+      //   // // Optimistically update to the new value
+      //   console.log("previuos   === ", newItem, previousItems)
+      //   //@ts-ignore
+      //   queryClient.setQueryData(["payments"], (old) => { 
+      //    console.log("old === ",old)
+      //     console.log("new item payload === ", newItem.payload.id)
+      //     old.items[newItem.payload.id] = newItem.payload
+      //     return old
+      //   });
+      //   // // Return a context object with the snapshotted value
+      //   // console.log("previuos after edit  === ", previousItems)
+      //   // return { previousItems };
+      // },
 
-      onSettled: () => {
-        queryClient.invalidateQueries(["payments"]);
-      },
+      // onSettled: () => {
+      //  queryClient.invalidateQueries(["payments"]);
+      // },
+      // mutationKey:["payments"]
+      
     }
   
   )
