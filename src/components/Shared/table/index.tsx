@@ -161,7 +161,7 @@ export interface TheTableProps {
   
   
   return (
-    <div className="w-full h-full relative top-0">
+    <div className="w-full h-full relative top-[1%] bottom-[1%] ">
       <div className="h-fit">
         <table border={1} className="table-auto w-full ">
           <thead className="w-screen sticky top-0 ">

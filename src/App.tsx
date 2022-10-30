@@ -28,27 +28,27 @@ function App() {
 const querClient = useQueryClient()
 const userQuery = useQuery(["user"], getUser);
 const testmode= true
-  const dummyuser = {
-    "id": "20dq1d1c3h5mncl",
-    "created": "2022-09-18 06:12:51.080",
-    "updated": "2022-09-18 06:12:51.080",
-    "email": "denniskinuthiaw@gmail.com",
-    "verified": true,
-    "lastResetSentAt": "",
-    "lastVerificationSentAt": "",
-    "profile": {
-      "id": "fzezpytbmw2cb1e",
-      "created": "2022-09-18 06:12:51.081",
-      "updated": "2022-10-17 15:45:58.593",
-      "@collectionId": "systemprofiles0",
-      "@collectionName": "profiles",
-      "avatar": "",
-      "avatarUrl": "https://lh3.googleusercontent.com/a/ALm5wu0eTxuzjH5YNIzy1z46o25PonSNVXxyRomY8--qxPY=s96-c",
-      "name": "Dennis",
-      "userId": "20dq1d1c3h5mncl",
-      "@expand": {}
-    }
-  }
+  // const dummyuser = {
+  //   "id": "20dq1d1c3h5mncl",
+  //   "created": "2022-09-18 06:12:51.080",
+  //   "updated": "2022-09-18 06:12:51.080",
+  //   "email": "denniskinuthiaw@gmail.com",
+  //   "verified": true,
+  //   "lastResetSentAt": "",
+  //   "lastVerificationSentAt": "",
+  //   "profile": {
+  //     "id": "fzezpytbmw2cb1e",
+  //     "created": "2022-09-18 06:12:51.081",
+  //     "updated": "2022-10-17 15:45:58.593",
+  //     "@collectionId": "systemprofiles0",
+  //     "@collectionName": "profiles",
+  //     "avatar": "",
+  //     "avatarUrl": "https://lh3.googleusercontent.com/a/ALm5wu0eTxuzjH5YNIzy1z46o25PonSNVXxyRomY8--qxPY=s96-c",
+  //     "name": "Dennis",
+  //     "userId": "20dq1d1c3h5mncl",
+  //     "@expand": {}
+  //   }
+  // }
 //  console.log("auth === ",userQuery)
 
 if (userQuery.isLoading ) {
@@ -69,9 +69,9 @@ if (userQuery.isLoading ) {
     ); 
   }
   const user = userQuery.data;
-  if(!user){
-    appendToCache(['user'], querClient, dummyuser)
-  }
+  // if(!user){
+  //   appendToCache(['user'], querClient, dummyuser)
+  // }
 
   // if(!user){
   //   return (

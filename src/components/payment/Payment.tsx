@@ -71,11 +71,11 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
     }, 
 
     onSettled: () => {
-        queryClient.invalidateQueries(["payments"]);
+      queryClient.invalidateQueries(["payments"]);
     },
+}
 
-
-})
+)
   const saveChanges = ((prev: any, current: any) =>{
     console.log("current payload === ",current)
     updateMutation.mutate({coll_name:"payments",theid:current.id,payload:current})
@@ -183,9 +183,9 @@ export const Payment: React.FC<PaymentProps> = ({}) => {
         style={{
           // top: `${ratio}%`,
           height: bottomHeight,
-          bottom: 0,
+          bottom: 2,
         }}
-        className="absolute  w-[98%]  overflow-y-scroll  left-[1%] right-[1%] 
+        className="absolute  w-[98%]  overflow-y-scroll  left-[1%] right-[1%] mb-2
          scrollbar-thin scrollbar-thumb-purple-800 "
       >
         <TheTable

@@ -76,33 +76,28 @@ const queryClient = useQueryClient();
     return client.records.create(vars.coll_name, vars.payload)
   }
   ,
-  // {
-  //   onMutate: async (newItem) => {
-  //     // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+    {
+      onMutate: async (newItem) => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
 
-  //     await queryClient.cancelQueries(["payments"]);
-  //     // Snapshot the previous value
-  //     const previousItems = queryClient.getQueryData(["payments"]);
-  //     // Optimistically update to the new value
-  //     console.log("previuos   === ", newItem, previousItems)
-  //     //@ts-ignore
-  //     queryClient.setQueryData(["payments"], (old) => {old.items[newItem.payload.id] = newItem.payload
-  //       return old
-  //     });
-  //     // Return a context object with the snapshotted value
-  //     console.log("previuos after edit  === ", previousItems)
-  //     return { previousItems };
-  //   },
-  //   // If the mutation fails, use the context returned from onMutate to roll back
-  //   // onError: (err, newTodo, context) => {
-  //   //   //@ts-ignore
-  //   //   queryClient.setQueryData(["payments"], context.previous);
-  //   // },
-  //   // // Always refetch after error or success:
-  //   onSettled: () => {
-  //     queryClient.invalidateQueries(["payments"]);
-  //   },
-  // }
+        await queryClient.cancelQueries(["payments"]);
+        // Snapshot the previous value
+        const previousItems = queryClient.getQueryData(["payments"]);
+        // Optimistically update to the new value
+        console.log("previuos   === ", newItem, previousItems)
+        //@ts-ignore
+        queryClient.setQueryData(["payments"], (old) => { old.items[newItem.payload.id] = newItem.payload
+          return old
+        });
+        // Return a context object with the snapshotted value
+        console.log("previuos after edit  === ", previousItems)
+        return { previousItems };
+      },
+
+      onSettled: () => {
+        queryClient.invalidateQueries(["payments"]);
+      },
+    }
   
   )
 
@@ -160,23 +155,7 @@ export const addComma = (figure: number) => {
   return figure.toLocaleString()
 }
 
-export const getNextShopNumber = (shops: Shop[]) => {
-  //@ts-ignore
-  let num: [number] = [0];
-  shops.forEach((shop) => {
 
-    if (shop.shopNumber.includes('G')) {
-      num.push(parseInt(shop.shopNumber.slice(2, 4)))
-    }
-    else {
-      num.push(parseInt(shop.shopNumber.slice(3, 5)))
-    }
-  })
-
-  const nextNo = num.reduce(function (p, v) { return (p > v ? p : v); }) + 1
-  const nextShopNo = nextNo < 10 ? '0' + nextNo : nextNo
-  return { existingShopNo: num, nextShopNo }
-}
 
 
 
