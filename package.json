@@ -17,7 +17,7 @@
     "@tanstack/react-table": "^8.5.15",
     "axios": "^0.27.2",
     "dayjs": "^1.11.5",
-    "firebase-admin": "^10.2.0",
+    "firebase-admin": "^11.4.1",
     "firebase-functions": "^3.21.2",
     "pocketbase": "^0.7.4",
     "react": "^18.2.0",
